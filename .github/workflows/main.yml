@@ -23,4 +23,4 @@ jobs:
     - name: Test with pytest
       run: |
         conda install pytest boto3 moto
-        $CONDA/bin/pytest
+        $CONDA/bin/pytest -sv
