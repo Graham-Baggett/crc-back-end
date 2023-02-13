@@ -3,6 +3,10 @@ run-name: ${{ github.actor }} is testing Python in GitHub Actions 🚀
 
 on: [push]
 
+# Required to get the ID Token that will be used for OIDC
+permissions:
+  id-token: write
+
 jobs:
   read-dev:
     runs-on: ubuntu-latest
