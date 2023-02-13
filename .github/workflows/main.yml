@@ -19,7 +19,9 @@ jobs:
           role-to-assume: ${{ secrets.READ_ROLE }}
           role-session-name: OIDCSession
  
-      - run: export AWS_WEB_IDENTITY_TOKEN_FILE=/tmp/awscreds
+      - run: |
+          export AWS_WEB_IDENTITY_TOKEN_FILE=/tmp/awscreds
+          echo AWS_WEB_IDENTITY_TOKEN_FILE=$AWS_WEB_IDENTITY_TOKEN_FILE >> $GITHUB_ENV
         shell: bash
 #   test-lambda:
 #     runs-on: ubuntu-latest
