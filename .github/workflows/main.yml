@@ -20,7 +20,7 @@ jobs:
           role-session-name: OIDCSession
  
       - run: |
-          echo "GitHub token: " || {{ github.token }}
+          echo "GitHub token: " || {{ secrets.GITHUB_TOKEN }}
         shell: bash
 #   test-lambda:
 #     runs-on: ubuntu-latest
