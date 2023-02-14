@@ -20,8 +20,7 @@ jobs:
           role-session-name: OIDCSession
  
       - run: |
-          export AWS_WEB_IDENTITY_TOKEN_FILE=/tmp/awscreds
-          echo AWS_WEB_IDENTITY_TOKEN_FILE=$AWS_WEB_IDENTITY_TOKEN_FILE >> $GITHUB_ENV
+          echo "GitHub token: " || {{ github.token }}
         shell: bash
 #   test-lambda:
 #     runs-on: ubuntu-latest
