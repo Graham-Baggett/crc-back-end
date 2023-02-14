@@ -21,11 +21,8 @@ jobs:
       - name: Print assumed role
         run: aws sts get-caller-identity
       - name: s3 list 
-        run: aws s3 ls
- 
-#       - run: |
-#           echo "GitHub token: " || {{ secrets.GITHUB_TOKEN }}
-#         shell: bash
+        run: aws s3 ls gb-cloud-resume
+
 #   test-lambda:
 #     runs-on: ubuntu-latest
 
