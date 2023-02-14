@@ -18,6 +18,10 @@ jobs:
           aws-region: us-east-1
           role-to-assume: ${{ secrets.READ_ROLE }}
           role-session-name: OIDCSession
+      - name: Print assumed role
+        run: aws sts get-caller-identity
+      - name: s3 list 
+        run: aws s3 ls
  
 #       - run: |
 #           echo "GitHub token: " || {{ secrets.GITHUB_TOKEN }}
