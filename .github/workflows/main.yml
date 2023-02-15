@@ -12,19 +12,16 @@ jobs:
       id-token: write # This is required for requesting the JWT
       contents: read  # This is required for actions/checkout
     steps: 
-      - name: Print Token
-        run: |
-          echo $ACTIONS_ID_TOKEN_REQUEST_TOKEN | sed 's/./& /g'
-#       - name: Configure AWS Credentials
-#         uses: aws-actions/configure-aws-credentials@master
-#         with:
-#           aws-region: us-east-1
-#           role-to-assume: ${{ secrets.READ_ROLE }}
-#           role-session-name: OIDCSession
-#       - name: Print assumed role
-#         run: aws sts get-caller-identity
-#       - name: s3 list 
-#         run: aws s3 ls gb-cloud-resume
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          aws-region: us-east-1
+          role-to-assume: ${{ secrets.READ_ROLE }}
+          role-session-name: OIDCSession
+      - name: Print assumed role
+        run: aws sts get-caller-identity
+      - name: s3 list 
+        run: aws s3 ls gb-cloud-resume
 
 #   test-lambda:
 #     runs-on: ubuntu-latest
