@@ -4,7 +4,7 @@ run-name: ${{ github.actor }} is testing Python in GitHub Actions 🚀
 on: [push]
 
 jobs:
-  read-dev:
+  update-infra:
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -16,12 +16,16 @@ jobs:
         uses: aws-actions/configure-aws-credentials@master
         with:
           aws-region: us-east-1
-          role-to-assume: ${{ secrets.READ_ROLE }}
+          role-to-assume: ${{ secrets.WRITE_ROLE }}
           role-session-name: OIDCSession
-      - name: Print assumed role
-        run: aws sts get-caller-identity
-      - name: s3 list 
-        run: aws s3 ls gb-cloud-resume
+      - name: Download repo
+        uses: actions/checkout@v3
+      - name: Setup SAM
+        uses: aws-actions/setup-sam@v1
+      - name: Build SAM template for deployment 
+        run: sam build
+      - name: Deploy SAM template to AWS
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --debug
 
 #   test-lambda:
 #     runs-on: ubuntu-latest
