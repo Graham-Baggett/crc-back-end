@@ -1,0 +1,9 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "crc-api-infra"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-17paw5tr04obg"
+s3_prefix = "crc-api-infra"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = []
