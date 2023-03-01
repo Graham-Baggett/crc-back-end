@@ -1,5 +1,5 @@
-name: Pytest with conda
-run-name: ${{ github.actor }} is testing Python in GitHub Actions 🚀
+name: AWS Back-End Infra and Testing
+run-name: ${{ github.actor }} is testing Back-End Infrastructure update in GitHub Actions 🚀
 
 on: [push]
 
@@ -20,8 +20,12 @@ jobs:
           role-session-name: OIDCSession
       - name: Download repo
         uses: actions/checkout@v3
+      - name: Set Python to 3.
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
       - name: Setup SAM
-        uses: aws-actions/setup-sam@v1
+        uses: aws-actions/setup-sam@v2
       - name: Build SAM template for deployment 
         run: sam build
       - name: Deploy SAM template to AWS
