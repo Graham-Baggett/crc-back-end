@@ -16,4 +16,13 @@ def lambda_handler(event, context):
     table = dynamodb.Table("home_page")
     increment_count(table)
 
-    return "Visitor count incremented successfully!"
+    return {
+        "statusCode": 200,
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Credentials": "*",
+            "Content-Type": "application/json",
+            "body": "Visitor count incremented successfully!",
+        },
+    }
