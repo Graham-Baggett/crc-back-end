@@ -11,13 +11,13 @@ Globals:
     Timeout: 3
 
 Resources:
-  GetFunction:
+  ReturnCountFunction:
     Type: AWS::Serverless::Function
     Properties:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: home_page
-      CodeUri: get-function/
+      CodeUri: python/src/return_count/
       Handler: get-function
       Runtime: python3.8
       Events:
@@ -27,13 +27,13 @@ Resources:
             Path: /get
             Method: GET
 
-  PutFunction:
+  IncrementCountFunction:
     Type: AWS::Serverless::Function
     Properties:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: home_page
-      CodeUri: put-function/
+      CodeUri: python/src/increment_count/
       Handler: put-function
       Runtime: python3.8
       Events:
