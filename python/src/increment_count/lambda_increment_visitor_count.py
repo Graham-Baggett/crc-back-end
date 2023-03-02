@@ -17,7 +17,7 @@ def increment_count(ddb_table):
 
 
 def lambda_handler(event, context):
-    dynamodb = boto3.resource("dynamodb", "us_east_1")
+    dynamodb = boto3.resource("dynamodb", "us-east-1")
     table = dynamodb.Table("home_page")
     increment_count(table)
 
