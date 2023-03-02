@@ -55,20 +55,43 @@ Resources:
         - AttributeName: "record_id"
           KeyType: "HASH"
           
-#   HelloWorldFunction:
-#     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-#     Properties:
-#       CodeUri: hello_world/
-#       Handler: app.lambda_handler
-#       Runtime: python3.8
-#       Architectures:
-#         - x86_64
-#       Events:
-#         HelloWorld:
-#           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-#           Properties:
-#             Path: /hello
-#             Method: get
+  DDBAddItemCustomResource:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: DDBAddItemCustomResource
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: ./js
+      Description: 'custom cloudformation resource used to deploy Lex aliases'
+      MemorySize: 256
+      Timeout: 300
+      Policies:
+        - Statement: 
+          - Sid: DynamoDB
+            Effect: "Allow"
+            Action: 
+            - dynamodb:PutItem
+            Resource: !Sub "arn:aws:dynamodb:*:${AWS::AccountId}:table/*"   
+
+  AddItemToDDB:
+    Type: Custom::CFNDDBAddItem
+    Properties:
+      ServiceToken: !ImportValue CFNDDBAddItem
+      TableName: !Ref DynamoDBTable
+      Item: >
+        {
+            "visitor_count" : 0,
+        }
+            
+Outputs:
+  CFNDDBAddItem:
+    Description: Custom resource to add DynamoDB items to an existing database
+    Value:
+      Fn::GetAtt:
+      - DDBAddItemCustomResource
+      - Arn
+    Export:
+      Name: CFNDDBAddItem
 
 # Outputs:
 #   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
