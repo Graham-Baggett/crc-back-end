@@ -18,7 +18,7 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: home_page
       CodeUri: python/src/return_count/
-      Handler: get-function
+      Handler: lamdbda_get_visitor_count.lambda_handler
       Runtime: python3.8
       Events:
         CatchAll:
@@ -34,7 +34,7 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: home_page
       CodeUri: python/src/increment_count/
-      Handler: put-function
+      Handler: lamdbda_increment_visitor_count.lambda_handler
       Runtime: python3.8
       Events:
         CatchAll:
@@ -56,7 +56,7 @@ Resources:
           KeyType: "HASH"
           
   DDBAddItemCustomResource:
-    Type: 'AWS::Serverless::Function'
+    Type: AWS::Serverless::Function
     Properties:
       FunctionName: DDBAddItemCustomResource
       Handler: index.handler
@@ -71,17 +71,18 @@ Resources:
             Effect: "Allow"
             Action: 
             - dynamodb:PutItem
-            Resource: !Sub "arn:aws:dynamodb:*:${AWS::AccountId}:table/*"   
+            Resource: !Sub "arn:aws:dynamodb:*:${AWS::AccountId}:table/${DynamoDBTable}"   
 
-  AddItemToDDB:
-    Type: Custom::CFNDDBAddItem
-    Properties:
-      ServiceToken: !ImportValue CFNDDBAddItem
-      TableName: !Ref DynamoDBTable
-      Item: >
-        {
-            "visitor_count" : 0,
-        }
+  #I believe the custom resource can only be invoked after it has been created and exported
+  # AddItemToDDB:
+  #   Type: Custom::CFNDDBAddItem
+  #   Properties:
+  #     ServiceToken: !ImportValue CFNDDBAddItem
+  #     TableName: !Ref DynamoDBTable
+  #     Item: >
+  #       {
+  #           "visitor_count" : 0,
+  #       }
             
 Outputs:
   CFNDDBAddItem:
