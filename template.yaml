@@ -74,15 +74,15 @@ Resources:
             Resource: !Sub "arn:aws:dynamodb:*:${AWS::AccountId}:table/${DynamoDBTable}"   
 
   #I believe the custom resource can only be invoked after it has been created and exported
-  # AddItemToDDB:
-  #   Type: Custom::CFNDDBAddItem
-  #   Properties:
-  #     ServiceToken: !ImportValue CFNDDBAddItem
-  #     TableName: !Ref DynamoDBTable
-  #     Item: >
-  #       {
-  #           "visitor_count" : 0,
-  #       }
+  AddItemToDDB:
+    Type: Custom::CFNDDBAddItem
+    Properties:
+      ServiceToken: !ImportValue CFNDDBAddItem
+      TableName: !Ref DynamoDBTable
+      Item: >
+        {
+            "visitor_count" : 0,
+        }
             
 Outputs:
   CFNDDBAddItem:
