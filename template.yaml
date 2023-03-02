@@ -54,45 +54,6 @@ Resources:
       KeySchema:
         - AttributeName: "record_id"
           KeyType: "HASH"
-          
-  DDBAddItemCustomResource:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: DDBAddItemCustomResource
-      Handler: index.handler
-      Runtime: nodejs18.x
-      CodeUri: ./js
-      Description: 'custom cloudformation resource used to deploy Lex aliases'
-      MemorySize: 256
-      Timeout: 300
-      Policies:
-        - Statement: 
-          - Sid: DynamoDB
-            Effect: "Allow"
-            Action: 
-            - dynamodb:PutItem
-            Resource: !Sub "arn:aws:dynamodb:*:${AWS::AccountId}:table/${DynamoDBTable}"   
-
-  #I believe the custom resource can only be invoked after it has been created and exported
-  AddItemToDDB:
-    Type: Custom::CFNDDBAddItem
-    Properties:
-      ServiceToken: !ImportValue CFNDDBAddItem
-      TableName: !Ref DynamoDBTable
-      Item: >
-        {
-            "visitor_count" : 0,
-        }
-            
-Outputs:
-  CFNDDBAddItem:
-    Description: Custom resource to add DynamoDB items to an existing database
-    Value:
-      Fn::GetAtt:
-      - DDBAddItemCustomResource
-      - Arn
-    Export:
-      Name: CFNDDBAddItem
 
 # Outputs:
 #   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
