@@ -3,9 +3,14 @@ import boto3
 
 def increment_count(ddb_table):
     response = ddb_table.get_item(Key={"record_id": "1"})
-    visitor_count = response["Item"]["visitor_count"]
-    visitor_count = visitor_count + 1
-    print(visitor_count)
+
+    if "Item" in response:
+        visitor_count = response["Item"]["visitor_count"]
+        visitor_count = visitor_count + 1
+        print(visitor_count)
+    else:
+        visitor_count = 1
+
     response = ddb_table.put_item(
         Item={"record_id": "1", "visitor_count": visitor_count}
     )
