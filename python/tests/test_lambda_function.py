@@ -31,12 +31,11 @@ def ddb_table(ddb_connection):
 
 def test_lambda_functions(ddb_table):
 
-    data = {"record_id": "1", "visitor_count": 20}
-    ddb_table.put_item(TableName=table_name, Item=data)
+    # Increment runs first because it can populate the table if empty
+    lambda_increment_visitor_count.increment_count(ddb_table)
     response = ddb_table.get_item(Key={"record_id": "1"})
     visitor_count = response["Item"]["visitor_count"]
-    actual_output = lambda_get_visitor_count.get_count(ddb_table)
-    assert actual_output == visitor_count
+    # Increment a second time to create a comparison between the original and the new visitor_count value
     lambda_increment_visitor_count.increment_count(ddb_table)
     incremented_count = lambda_get_visitor_count.get_count(ddb_table)
     assert incremented_count == visitor_count + 1
