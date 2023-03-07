@@ -11,11 +11,11 @@ jobs:
     - uses: actions/checkout@v3
     - uses: conda-incubator/setup-miniconda@v2
       with:
-        auto-update-conda: true
-        miniforge-variant: Mambaforge
+#         auto-update-conda: true
+#         miniforge-variant: Mambaforge
         activate-environment: foo
         python-version: 3.8
-        use-mamba: true
+#         use-mamba: true
     - name: Lint with flake8
       run: |
         $CONDA/bin/conda install flake8
