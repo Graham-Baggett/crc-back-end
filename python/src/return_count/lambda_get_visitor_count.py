@@ -39,5 +39,5 @@ def lambda_handler(event: dict, context: Any) -> dict:
     return {
         "statusCode": 200,
         "headers": headers,
-        "body": {"visitor_count": count},
+        "body": count,
     }
