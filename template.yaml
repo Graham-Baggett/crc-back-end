@@ -25,10 +25,11 @@ Globals:
     Timeout: 3
 
 Resources:
-  GetVisitorCountFunction: #Returns the visitor count from the specified DynamoDB table.
+  GetVisitorCountFunction: 
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: python/src/return_count/
+      Description: Returns the visitor count from the specified DynamoDB table.
       Events:
         GetRequest:
           Type: Api
@@ -41,10 +42,11 @@ Resources:
             TableName: !Ref TableName
       Runtime: python3.8
       
-  IncrementVisitorCountFunction: #Increments the visitor count in the specified DynamoDB table.
+  IncrementVisitorCountFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: python/src/increment_count/
+      Description: Increments the visitor count in the specified DynamoDB table.
       Events:
         PutRequest:
           Type: Api
@@ -79,15 +81,15 @@ Outputs:
   CrcApiInfraAPI:
     Description: "API Gateway endpoint URL for Prod stage for Increment and Return Count functions"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
-  IncrementCountFunction:
-    Description: "Increment Lambda Function ARN"
-    Value: !GetAtt IncrementCountFunction.Arn
-  ReturnCountFunction:
-    Description: "Return Lambda Function ARN"
-    Value: !GetAtt ReturnCountFunction.Arn
-  IncrementCountFunctionIamRole:
-    Description: "Implicit IAM Role created for Increment Count function"
-    Value: !GetAtt IncrementCountFunctionRole.Arn
-  ReturnCountFunctionIamRole:
-    Description: "Implicit IAM Role created for Return Count function"
-    Value: !GetAtt ReturnCountFunctionRole.Arn
+  IncrementVisitorCountFunction:
+    Description: "Increment Visitor Lambda Function ARN"
+    Value: !GetAtt IncrementVisitorCountFunction.Arn
+  GetVisitorCountFunction:
+    Description: "Get Visitor Lambda Function ARN"
+    Value: !GetAtt GetVisitorCountFunction.Arn
+  IncrementVisitorCountFunctionIamRole:
+    Description: "Implicit IAM Role created for Increment Visitor Count function"
+    Value: !GetAtt IncrementVisitorCountFunctionRole.Arn
+  GetVisitorCountFunctionIamRole:
+    Description: "Implicit IAM Role created for Get Visitor Count function"
+    Value: !GetAtt GetVisitorCountFunctionRole.Arn
