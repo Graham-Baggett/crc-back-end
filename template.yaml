@@ -1,9 +1,19 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
-Description: >
-  crc-api-infra
 
-  Sample SAM Template for crc-api-infra
+Transform: AWS::Serverless-2016-10-31
+
+Description: >
+  Creates an API Gateway REST API with two Lambda functions that interact with a DynamoDB table.
+
+Parameters:
+  TableName:
+    Type: String
+    Description: The name of the DynamoDB table to create or use.
+    Default: home_page
+  AttributeName:
+    Type: String
+    Description: The name of the partition key of the DynamoDB table.
+    Default: record_id
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -11,48 +21,49 @@ Globals:
     Timeout: 3
 
 Resources:
-  ReturnCountFunction:
+  ReturnCountFunction: #Returns the visitor count from the specified DynamoDB table.
     Type: AWS::Serverless::Function
     Properties:
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: home_page
       CodeUri: python/src/return_count/
-      Handler: lambda_get_visitor_count.lambda_handler
-      Runtime: python3.8
       Events:
-        CatchAll:
+        GetRequest:
           Type: Api
           Properties:
             Path: /get
             Method: GET
-
-  IncrementCountFunction:
-    Type: AWS::Serverless::Function
-    Properties:
+      Handler: lambda_get_visitor_count.lambda_handler
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: home_page
-      CodeUri: python/src/increment_count/
-      Handler: lambda_increment_visitor_count.lambda_handler
+            TableName: !Ref TableName
       Runtime: python3.8
+      
+  IncrementCountFunction: #Increments the visitor count in the specified DynamoDB table.
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: python/src/increment_count/
       Events:
-        CatchAll:
+        PutRequest:
           Type: Api
           Properties:
             Path: /put
             Method: GET
+      Handler: lambda_increment_visitor_count.lambda_handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TableName      
+      Runtime: python3.8
+      
   
-  DynamoDBTable:
+  DynamoDBTable: #A table to store the visitor count.
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: home_page
+      TableName: !Ref TableName
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
-        - AttributeName: "record_id"
+        - AttributeName: !Ref AttributeName
           AttributeType: "S"
       KeySchema:
-        - AttributeName: "record_id"
+        - AttributeName: !Ref AttributeName
           KeyType: "HASH"
 
 Outputs:
