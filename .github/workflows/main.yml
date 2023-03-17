@@ -3,14 +3,22 @@ run-name: ${{ github.actor }} is testing Back-End Infrastructure update in GitHu
 
 on: [push]
 
+permissions:
+  contents: read
+
 jobs:
   test-lambda:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Harden Runner
+      uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
+      with:
+        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+    - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@75f3110429a8c05be0e1bf360334e4cced2b63fa # v2.3.3
       with:
           python-version: '3.8'
     - name: Install dependencies
@@ -31,16 +39,21 @@ jobs:
       id-token: write # This is required for requesting the JWT
       contents: read  # This is required for actions/checkout
     steps: 
+      - name: Harden Runner
+        uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
+        with:
+          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@ffc08eae7350b1061d7de219e2135c75561fb680 # master
         with:
           aws-region: us-east-1
           role-to-assume: ${{ secrets.WRITE_ROLE }}
           role-session-name: OIDCSession
       - name: Download repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
       - name: Set Python to 3.8
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@d27e3f3d7c64b4bbf8e4abfb9b63b83e846e0435 # v4.5.0
         with:
           python-version: "3.8"
       - name: Build SAM template for deployment 
