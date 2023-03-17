@@ -42,10 +42,14 @@ jobs:
       with:
         path: ./python/
         artifact-name: sbom.spdx
+    - name: Determine current dir and files
+      run: |
+        ls -la
+        pwd
     - name: Scan SBOM
       uses: anchore/scan-action@v3
       with:
-        sbom: ./python/sbom.spdx
+        sbom: sbom.spdx
     - name: Run tests and linting
       run: |
           pip install flake8
