@@ -42,7 +42,7 @@ jobs:
       with:
         path: ./python/
         artifact-name: sbom.spdx
-        output-file: .
+        output-file: ${{ github.workspace }}
     - name: Determine current dir and files
       run: |
         ls -la
@@ -50,7 +50,7 @@ jobs:
     - name: Scan SBOM
       uses: anchore/scan-action@v3
       with:
-        sbom: sbom.spdx
+        sbom: ${{ github.workspace }}/sbom.spdx
     - name: Run tests and linting
       run: |
           pip install flake8
