@@ -1,7 +1,10 @@
-name: AWS Back-End Infra and Testing
-run-name: ${{ github.actor }} is testing Back-End Infrastructure update in GitHub Actions 🚀
+name: Python Testing and AWS Back-End Infrastructure Deployment
+run-name: ${{ github.actor }} is testing and deploying Back-End Infrastructure update in GitHub Actions 🚀
 
-on: [push]
+on: 
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
