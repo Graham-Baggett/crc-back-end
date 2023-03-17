@@ -28,7 +28,7 @@ jobs:
       run: |
           python -m pip install --upgrade pip
           pip install -r python/requirements.txt
-    - uses: anchore/sbom-action@v0
+    - uses: anchore/sbom-action@07978da4bdb4faa726e52dfc6b1bed63d4b56479 # v0.13.3
       with:
         path: ./python/
         artifact-name: sbom.spdx
