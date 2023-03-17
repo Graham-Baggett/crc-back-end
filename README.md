@@ -1,4 +1,5 @@
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/Graham-Baggett/crc-back-end/badge)](https://api.securityscorecards.dev/projects/github.com/Graham-Baggett/crc-back-end)
+[![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/7142/badge)](https://bestpractices.coreinfrastructure.org/projects/7142)
 
 # Cloud Resume Challenge
 Back-end repository for the Cloud Resume Challenge
