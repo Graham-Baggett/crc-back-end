@@ -41,8 +41,8 @@ jobs:
       uses: anchore/sbom-action@07978da4bdb4faa726e52dfc6b1bed63d4b56479 # v0.13.3
       with:
         path: ./python/
-        artifact-name: sbom.spdx
-        output-file: ${{ github.workspace }}
+#         artifact-name: sbom.spdx
+        output-file: ${{ github.workspace }}/sbom.spdx
     - name: Determine current dir and files
       run: |
         ls -la
