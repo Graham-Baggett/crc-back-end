@@ -1,10 +1,7 @@
 name: Python Testing and AWS Back-End Infrastructure Deployment
 run-name: ${{ github.actor }} is testing and deploying Back-End Infrastructure update in GitHub Actions 🚀
 
-on: 
-  push:
-    branches:
-      - main
+on: [push]
 
 permissions:
   contents: read
@@ -28,14 +25,19 @@ jobs:
       run: |
           python -m pip install --upgrade pip
           pip install -r python/requirements.txt
-          pip install flake8
+    - uses: anchore/sbom-action@v0
+      with:
+        path: ./python/
+        artifact-name: sbom.spdx
     - name: Run tests and linting
       run: |
+          pip install flake8
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --max-complexity=10 --max-line-length=127
           pytest -sv
         
   update-infra:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     needs: test-lambda
     environment:
       name: production
