@@ -42,6 +42,7 @@ jobs:
       with:
         path: ./python/
         artifact-name: sbom.spdx
+        output-file: .
     - name: Determine current dir and files
       run: |
         ls -la
