@@ -1,7 +1,10 @@
 name: Python Testing and AWS Back-End Infrastructure Deployment
 run-name: ${{ github.actor }} is testing and deploying Back-End Infrastructure update in GitHub Actions 🚀
 
-on: [push]
+on: 
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -37,7 +40,6 @@ jobs:
         
   update-infra:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
     needs: test-lambda
     environment:
       name: production
