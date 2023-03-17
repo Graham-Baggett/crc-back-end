@@ -48,7 +48,7 @@ jobs:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@ffc08eae7350b1061d7de219e2135c75561fb680 # master
+        uses: aws-actions/configure-aws-credentials@cb1361ade3c0ad3551e7d2be86bf97afcb51e4d6 # master
         with:
           aws-region: us-east-1
           role-to-assume: ${{ secrets.WRITE_ROLE }}
