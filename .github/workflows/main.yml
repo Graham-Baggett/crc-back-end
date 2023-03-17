@@ -26,6 +26,7 @@ jobs:
           pypi.org:443
           raw.githubusercontent.com:443
           objects.githubusercontent.com:443
+          toolbox-data.anchore.io:443
 
     - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
     - name: Set up Python
