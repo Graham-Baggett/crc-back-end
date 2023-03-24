@@ -1,18 +1,18 @@
 resource "aws_api_gateway_rest_api" "crc_api_infra_api" {
-  name        = "crc-api-infra"
+  name        = var.api_name
   description = "API Gateway for the Visitor Count Lambda functions"
 }
 
 resource "aws_api_gateway_resource" "get" {
   rest_api_id = aws_api_gateway_rest_api.crc_api_infra_api.id
   parent_id   = aws_api_gateway_rest_api.crc_api_infra_api.root_resource_id
-  path_part   = "get"
+  path_part   = var.get_path_part
 }
 
 resource "aws_api_gateway_resource" "put" {
   rest_api_id = aws_api_gateway_rest_api.crc_api_infra_api.id
   parent_id   = aws_api_gateway_rest_api.crc_api_infra_api.root_resource_id
-  path_part   = "put"
+  path_part   = var.put_path_part
 }
 
 resource "aws_api_gateway_method" "get" {
