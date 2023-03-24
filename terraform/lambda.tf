@@ -15,12 +15,6 @@ resource "aws_lambda_function" "get_visitor_count_function" {
 
   handler = "lambda_get_visitor_count.lambda_handler"
 
-  event_source_mapping {
-    event_source_arn  = aws_dynamodb_table.visitor_count_table.arn
-    batch_size        = 10
-    starting_position = "LATEST"
-  }
-
   depends_on = [
     aws_dynamodb_table.visitor_count_table,
   ]
@@ -40,12 +34,6 @@ resource "aws_lambda_function" "increment_visitor_count_function" {
   }
 
   handler = "lambda_increment_visitor_count.lambda_handler"
-
-  event_source_mapping {
-    event_source_arn = aws_dynamodb_table.visitor_count_table.arn
-    batch_size       = 10
-    starting_position = "LATEST"
-  }
 
   depends_on = [
     aws_dynamodb_table.visitor_count_table,
