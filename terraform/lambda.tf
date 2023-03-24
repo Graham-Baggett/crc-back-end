@@ -109,8 +109,7 @@ resource "aws_iam_role" "increment_visitor_count_function_role" {
 resource "aws_iam_policy" "dynamodb-write-policy" {
   name = "dynamodb-write-policy"
   description = "Policy for the Increment Visitor Count Lambda Function to perform PutItem on the DynamoDB table that contains the visitor count"
-  policy =
-    policy = jsonencode({
+  policy = jsonencode({
       Version = "2012-10-17"
       Statement = [
         {
