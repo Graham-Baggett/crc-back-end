@@ -27,7 +27,7 @@ resource "aws_lambda_function" "increment_visitor_count_function" {
   role          = aws_iam_role.increment_visitor_count_function_role.arn
   runtime       = "python3.8"
   timeout       = 3
-  filename      = "python/src/increment_count/lambda_increment_visitor_count.py"
+  filename      = data.archive_file.lambda_increment_zip.output_path
   handler       = "lambda_increment_visitor_count.lambda_handler"
   depends_on    = [aws_dynamodb_table.visitor_count_table]
 }
