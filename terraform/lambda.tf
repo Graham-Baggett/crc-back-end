@@ -120,5 +120,5 @@ resource "aws_lambda_permission" "apigw_get_visitor_count" {
 
   # The /*/* portion grants access from any method on any resource
   # within the API Gateway "REST API".
-  source_arn = "${aws_api_gateway_rest_api.crc_api_infra_api.execution_arn}/${aws_api_gateway_resource.prod.path}"/${aws_api_gateway_method.get.http_method}"
+  source_arn = "arn:aws:execute-api:${local.region}:${local.account_id}:${aws_api_gateway_rest_api.api.id}/*/*/${aws_api_gateway_resource.resource.path_part}"
 }
