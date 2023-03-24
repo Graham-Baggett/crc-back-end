@@ -14,8 +14,8 @@ resource "aws_lambda_function" "get_visitor_count_function" {
   handler = "lambda_get_visitor_count.lambda_handler"
 
   event_source_mapping {
-    event_source_arn = aws_dynamodb_table.visitor_count_table.arn
-    batch_size       = 10
+    event_source_arn  = aws_dynamodb_table.visitor_count_table.arn
+    batch_size        = 10
     starting_position = "LATEST"
   }
 
@@ -118,9 +118,7 @@ resource "aws_lambda_permission" "apigw_get_visitor_count" {
   function_name = aws_lambda_function.get_visitor_count_function.function_name
   principal     = "apigateway.amazonaws.com"
 
-  # The /*/* portion grants access from any method on any resource
-  # within the API Gateway "REST API".
-  source_arn = "arn:aws:execute-api:${var.region}:${var.account_id}:${aws_api_gateway_rest_api.crc_api_infra_api.id}/*/*/${aws_api_gateway_resource.get.path_part}"
+  source_arn = "arn:aws:execute-api:${var.region}:${var.account_id}:${aws_api_gateway_rest_api.crc_api_infra_api.id}/*/GET/${aws_api_gateway_resource.get.path_part}"
 }
 
 resource "aws_lambda_permission" "apigw_increment_visitor_count" {
@@ -129,7 +127,5 @@ resource "aws_lambda_permission" "apigw_increment_visitor_count" {
   function_name = aws_lambda_function.increment_visitor_count_function.function_name
   principal     = "apigateway.amazonaws.com"
 
-  # The /*/* portion grants access from any method on any resource
-  # within the API Gateway "REST API".
-  source_arn = "arn:aws:execute-api:${var.region}:${var.account_id}:${aws_api_gateway_rest_api.crc_api_infra_api.id}/*/*/${aws_api_gateway_resource.put.path_part}"
+  source_arn = "arn:aws:execute-api:${var.region}:${var.account_id}:${aws_api_gateway_rest_api.crc_api_infra_api.id}/*/GET/${aws_api_gateway_resource.put.path_part}"
 }
