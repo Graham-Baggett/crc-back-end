@@ -17,7 +17,14 @@ resource "aws_api_gateway_resource" "put" {
 
 resource "aws_api_gateway_method" "get" {
   rest_api_id   = aws_api_gateway_rest_api.crc_api_infra_api.id
-  resource_id   = aws_api_gateway_resource.prod.id
+  resource_id   = aws_api_gateway_resource.get.id
+  http_method   = "GET"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_method" "put" {
+  rest_api_id   = aws_api_gateway_rest_api.crc_api_infra_api.id
+  resource_id   = aws_api_gateway_resource.put.id
   http_method   = "GET"
   authorization = "NONE"
 }
@@ -35,7 +42,7 @@ resource "aws_api_gateway_integration" "apigw-integration-get" {
 resource "aws_api_gateway_integration" "apigw-integration-put" {
   rest_api_id = aws_api_gateway_rest_api.crc_api_infra_api.id
   resource_id = aws_api_gateway_resource.put.id
-  http_method = aws_api_gateway_method.get.http_method
+  http_method = aws_api_gateway_method.put.http_method
 
   integration_http_method = "GET"
   type                    = "AWS_PROXY"
