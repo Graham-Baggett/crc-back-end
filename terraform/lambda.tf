@@ -18,8 +18,8 @@ resource "aws_lambda_function" "get_visitor_count_function" {
   runtime       = "python3.8"
   timeout       = 3
   filename      = data.archive_file.lambda_get_zip.output_path
-  handler = "lambda_get_visitor_count.lambda_handler"
-  depends_on = [aws_dynamodb_table.visitor_count_table]
+  handler       = "lambda_get_visitor_count.lambda_handler"
+  depends_on    = [aws_dynamodb_table.visitor_count_table]
 }
 
 resource "aws_lambda_function" "increment_visitor_count_function" {
@@ -28,8 +28,8 @@ resource "aws_lambda_function" "increment_visitor_count_function" {
   runtime       = "python3.8"
   timeout       = 3
   filename      = "python/src/increment_count/lambda_increment_visitor_count.py"
-  handler = "lambda_increment_visitor_count.lambda_handler"
-  depends_on = [aws_dynamodb_table.visitor_count_table]
+  handler       = "lambda_increment_visitor_count.lambda_handler"
+  depends_on    = [aws_dynamodb_table.visitor_count_table]
 }
 
 resource "aws_iam_role" "get_visitor_count_function_role" {
