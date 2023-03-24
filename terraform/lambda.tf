@@ -110,16 +110,15 @@ resource "aws_iam_policy" "dynamodb-write-policy" {
   name = "dynamodb-write-policy"
   description = "Policy for the Increment Visitor Count Lambda Function to perform PutItem on the DynamoDB table that contains the visitor count"
   policy = jsonencode({
-      Version = "2012-10-17"
-      Statement = [
-        {
-          Effect   = "Allow"
-          Action   = "dynamodb:PutItem"
-          Resource = aws_dynamodb_table.visitor_count_table.arn
-        }
-      ]
-    })
-  }
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "dynamodb:PutItem"
+        Resource = aws_dynamodb_table.visitor_count_table.arn
+      }
+    ]
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "increment-function-dynamodb-role-policy-attachment" {
