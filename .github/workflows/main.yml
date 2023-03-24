@@ -68,11 +68,11 @@ jobs:
       id-token: write # This is required for requesting the JWT
       contents: read  # This is required for actions/checkout
     steps: 
-      - name: Harden Runner
-        #uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
-        uses: step-security/harden-runner@rc
-        with:
-          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+#       - name: Harden Runner
+#         #uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
+#         uses: step-security/harden-runner@rc
+#         with:
+#           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83 # master
