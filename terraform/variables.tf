@@ -4,12 +4,6 @@ variable "region" {
   description = "Default region for the application"
 }
 
-variable "account_id" {
-  type        = string
-  default     = data.aws_caller_identity.current.account_id
-  description = "AWS Account ID"
-}
-
 variable "api_name" {
   type        = string
   default     = "crc-api-infra"
