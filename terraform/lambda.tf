@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_lambda_function" "get_visitor_count_function" {
   function_name = "get-visitor-count-function"
   role          = aws_iam_role.get_visitor_count_function_role.arn
@@ -118,7 +120,7 @@ resource "aws_lambda_permission" "apigw_get_visitor_count" {
   function_name = aws_lambda_function.get_visitor_count_function.function_name
   principal     = "apigateway.amazonaws.com"
 
-  source_arn = "arn:aws:execute-api:${var.region}:${var.account_id}:${aws_api_gateway_rest_api.crc_api_infra_api.id}/*/GET/${aws_api_gateway_resource.get.path_part}"
+  source_arn = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.crc_api_infra_api.id}/*/GET/${aws_api_gateway_resource.get.path_part}"
 }
 
 resource "aws_lambda_permission" "apigw_increment_visitor_count" {
@@ -127,5 +129,5 @@ resource "aws_lambda_permission" "apigw_increment_visitor_count" {
   function_name = aws_lambda_function.increment_visitor_count_function.function_name
   principal     = "apigateway.amazonaws.com"
 
-  source_arn = "arn:aws:execute-api:${var.region}:${var.account_id}:${aws_api_gateway_rest_api.crc_api_infra_api.id}/*/GET/${aws_api_gateway_resource.put.path_part}"
+  source_arn = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.crc_api_infra_api.id}/*/GET/${aws_api_gateway_resource.put.path_part}"
 }
