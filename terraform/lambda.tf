@@ -60,7 +60,7 @@ resource "aws_iam_role" "get_visitor_count_function_role" {
 resource "aws_iam_policy" "dynamodb-read-policy" {
   name        = "dynamodb-read-policy"
   description = "Policy for the Get Visitor Count Lambda Function to perform GetItem on the DynamoDB table that contains the visitor count"
-  policy      = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -97,7 +97,7 @@ resource "aws_iam_role" "increment_visitor_count_function_role" {
 resource "aws_iam_policy" "dynamodb-write-policy" {
   name        = "dynamodb-write-policy"
   description = "Policy for the Increment Visitor Count Lambda Function to perform PutItem on the DynamoDB table that contains the visitor count"
-  policy      = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
