@@ -8,7 +8,7 @@ variable "api_name" {
   type        = string
   default     = "crc-api-infra"
   description = "API Gateway Name"
-} 
+}
 
 variable "get_path_part" {
   type        = string
