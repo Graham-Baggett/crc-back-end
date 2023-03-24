@@ -60,5 +60,5 @@ resource "aws_api_gateway_deployment" "apigw-deployment" {
 }
 
 output "base_url" {
-  value = aws_api_gateway_deployment.crc_api_infra_api.invoke_url
+  value = aws_api_gateway_deployment.apigw-deployment.invoke_url
 }
