@@ -67,20 +67,26 @@ resource "aws_iam_role" "get_visitor_count_function_role" {
       }
     ]
   })
+}
 
-  policy {
-    name = "dynamodb-read-policy"
-    policy = jsonencode({
-      Version = "2012-10-17"
-      Statement = [
-        {
-          Effect   = "Allow"
-          Action   = "dynamodb:GetItem"
-          Resource = aws_dynamodb_table.visitor_count_table.arn
-        }
-      ]
-    })
-  }
+resource "aws_iam_policy" "dynamodb-read-policy" {
+  name = "dynamodb-read-policy"
+  description = "Policy for the Get Visitor Count Lambda Function to perform GetItem on the DynamoDB table that contains the visitor count"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "dynamodb:GetItem"
+        Resource = aws_dynamodb_table.visitor_count_table.arn
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "get-function-dynamodb-role-policy-attachment" {
+  role       = aws_iam_role.get_visitor_count_function_role.name
+  policy_arn = aws_iam_policy.dynamodb-read-policy.arn
 }
 
 resource "aws_iam_role" "increment_visitor_count_function_role" {
@@ -98,9 +104,12 @@ resource "aws_iam_role" "increment_visitor_count_function_role" {
       }
     ]
   })
+}
 
-  policy {
-    name = "dynamodb-write-policy"
+resource "aws_iam_policy" "dynamodb-write-policy" {
+  name = "dynamodb-write-policy"
+  description = "Policy for the Increment Visitor Count Lambda Function to perform PutItem on the DynamoDB table that contains the visitor count"
+  policy =
     policy = jsonencode({
       Version = "2012-10-17"
       Statement = [
@@ -112,6 +121,11 @@ resource "aws_iam_role" "increment_visitor_count_function_role" {
       ]
     })
   }
+}
+
+resource "aws_iam_role_policy_attachment" "increment-function-dynamodb-role-policy-attachment" {
+  role       = aws_iam_role.increment_visitor_count_function_role.name
+  policy_arn = aws_iam_policy.dynamodb-write-policy.arn
 }
 
 resource "aws_lambda_permission" "apigw_get_visitor_count" {
