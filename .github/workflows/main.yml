@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 jobs:
-   test-lambda:
-     runs-on: ubuntu-latest
+#    test-lambda:
+#      runs-on: ubuntu-latest
 
 #      steps:
 #      - name: Harden Runner
