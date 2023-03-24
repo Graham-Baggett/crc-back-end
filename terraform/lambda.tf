@@ -113,12 +113,23 @@ resource "aws_iam_role" "increment_visitor_count_function_role" {
 }
 
 resource "aws_lambda_permission" "apigw_get_visitor_count" {
-  statement_id  = "AllowAPIGatewayInvoke"
+  statement_id  = "AllowAPIGatewayInvokeGetVisitorCount"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.get_visitor_count_function.function_name
   principal     = "apigateway.amazonaws.com"
 
   # The /*/* portion grants access from any method on any resource
   # within the API Gateway "REST API".
-  source_arn = "arn:aws:execute-api:${local.region}:${local.account_id}:${aws_api_gateway_rest_api.api.id}/*/*/${aws_api_gateway_resource.resource.path_part}"
+  source_arn = "arn:aws:execute-api:${var.region}:${var.account_id}:${aws_api_gateway_rest_api.crc_api_infra_api.id}/*/*/${aws_api_gateway_resource.get.path_part}"
+}
+
+resource "aws_lambda_permission" "apigw_increment_visitor_count" {
+  statement_id  = "AllowAPIGatewayInvokeIncrementVisitorCount"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.increment_visitor_count_function.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  # The /*/* portion grants access from any method on any resource
+  # within the API Gateway "REST API".
+  source_arn = "arn:aws:execute-api:${var.region}:${var.account_id}:${aws_api_gateway_rest_api.crc_api_infra_api.id}/*/*/${aws_api_gateway_resource.put.path_part}"
 }
