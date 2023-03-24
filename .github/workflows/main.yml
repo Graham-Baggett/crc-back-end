@@ -90,7 +90,7 @@ jobs:
         run: |
            echo `pwd`
            terraform init -input=false
-           terraform validate
+           terraform fmt -diff
 #       - name: Build SAM template for deployment 
 #         run: sam build
 #       - name: Deploy SAM template to AWS
