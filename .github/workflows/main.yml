@@ -4,7 +4,7 @@ run-name: ${{ github.actor }} is testing and deploying Back-End Infrastructure u
 on: 
   push:
     branches:
-      - terraform_testing
+      - main
       
 permissions:
   contents: read
