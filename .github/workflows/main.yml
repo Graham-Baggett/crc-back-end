@@ -29,34 +29,34 @@ jobs:
             toolbox-data.anchore.io:443
 
       - name: Checkout Python
-      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
-#       - name: Set up Python
-#         uses: actions/setup-python@d27e3f3d7c64b4bbf8e4abfb9b63b83e846e0435 # v4.5.0
-#         with:
-#           python-version: '3.8'
-#       - name: Install dependencies
-#         run: |
-#           python -m pip install --upgrade pip
-#           pip install -r python/requirements.txt
-#       - name: Create SBOM
-#         uses: anchore/sbom-action@448520c4f19577ffce70a8317e619089054687e3 # v0.13.4
-#         with:
-#           path: ./python/
-#           artifact-name: sbom.spdx
-#           output-file: ./sbom.spdx
-#       - name: Determine current dir and files
-#         run: |
-#           ls -la
-#           pwd
-#       - name: Scan SBOM
-#         uses: anchore/scan-action@dafbc97d7259af88b61bd260f2fde565d0668a72 # v3.3.4
-#         with:
-#           sbom: sbom.spdx
-#       - name: Run tests and linting
-#         run: |
-#           pip install flake8
-#           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --max-complexity=10 --max-line-length=127
-#           pytest -sv
+        uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
+      - name: Set up Python
+        uses: actions/setup-python@d27e3f3d7c64b4bbf8e4abfb9b63b83e846e0435 # v4.5.0
+        with:
+          python-version: '3.8'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r python/requirements.txt
+      - name: Create SBOM
+        uses: anchore/sbom-action@448520c4f19577ffce70a8317e619089054687e3 # v0.13.4
+        with:
+          path: ./python/
+          artifact-name: sbom.spdx
+          output-file: ./sbom.spdx
+      - name: Determine current dir and files
+        run: |
+          ls -la
+          pwd
+      - name: Scan SBOM
+        uses: anchore/scan-action@dafbc97d7259af88b61bd260f2fde565d0668a72 # v3.3.4
+        with:
+          sbom: sbom.spdx
+      - name: Run tests and linting
+        run: |
+          pip install flake8
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --max-complexity=10 --max-line-length=127
+          pytest -sv
         
   update-infra:
     runs-on: ubuntu-latest
