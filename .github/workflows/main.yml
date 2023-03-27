@@ -90,6 +90,8 @@ jobs:
         run: |
            echo `pwd`
            terraform init -input=false
+           terraform plan
+           terraform fmt -diff
 #            terraform apply -auto-approve
            
 #       - name: Upload Terraform state file
