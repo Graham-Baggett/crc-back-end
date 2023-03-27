@@ -34,7 +34,7 @@ resource "aws_api_gateway_integration" "apigw-integration-get" {
   resource_id = aws_api_gateway_resource.get.id
   http_method = aws_api_gateway_method.get.http_method
 
-  integration_http_method = "GET"
+  integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.get_visitor_count_function.invoke_arn
 }
@@ -44,7 +44,7 @@ resource "aws_api_gateway_integration" "apigw-integration-put" {
   resource_id = aws_api_gateway_resource.put.id
   http_method = aws_api_gateway_method.put.http_method
 
-  integration_http_method = "GET"
+  integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.increment_visitor_count_function.invoke_arn
 }
