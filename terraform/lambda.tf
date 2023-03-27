@@ -106,6 +106,11 @@ resource "aws_iam_role_policy_attachment" "increment-function-dynamodb-role-poli
   policy_arn = aws_iam_policy.dynamodb-write-policy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "increment-function-dynamodb-read-role-policy-attachment" {
+  role       = aws_iam_role.increment_visitor_count_function_role.name
+  policy_arn = aws_iam_policy.dynamodb-read-policy.arn
+}
+
 resource "aws_lambda_permission" "apigw_get_visitor_count" {
   statement_id  = "AllowAPIGatewayInvokeGetVisitorCount"
   action        = "lambda:InvokeFunction"
