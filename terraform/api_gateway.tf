@@ -73,6 +73,12 @@ resource "aws_api_gateway_integration_response" "get_integration_response" {
     "method.response.header.Access-Control-Allow-Methods" = "'POST,OPTIONS,GET,PUT,PATCH,DELETE'",
     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
   }
+  
+  depends_on = [
+    aws_lambda_function.get_visitor_count_function,
+    aws_api_gateway_integration.apigw-integration-get,
+    aws_api_gateway_method_response.get_method_response
+  ]
 }
 
 resource "aws_api_gateway_method_response" "put_method_response" {
@@ -99,6 +105,12 @@ resource "aws_api_gateway_integration_response" "put_integration_response" {
     "method.response.header.Access-Control-Allow-Methods" = "'POST,OPTIONS,GET,PUT,PATCH,DELETE'",
     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
   }
+  
+  depends_on = [
+    aws_lambda_function.increment_visitor_count_function,
+    aws_api_gateway_integration.apigw-integration-put,
+    aws_api_gateway_method_response.put_method_response
+  ]
 }
 
 resource "aws_api_gateway_deployment" "apigw-deployment" {
