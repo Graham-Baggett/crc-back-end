@@ -49,6 +49,58 @@ resource "aws_api_gateway_integration" "apigw-integration-put" {
   uri                     = aws_lambda_function.increment_visitor_count_function.invoke_arn
 }
 
+resource "aws_api_gateway_method_response" "get_method_response" {
+  depends_on      = [aws_api_gateway_method.get]
+  rest_api_id     = aws_api_gateway_rest_api.crc_api_infra_api.id
+  resource_id     = aws_api_gateway_rest_api.crc_api_infra_api.root_resource_id
+  http_method     = aws_api_gateway_method.get.http_method
+  status_code     = 200
+  response_models = { "application/json" = "Empty" }
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true,
+    "method.response.header.Access-Control-Allow-Methods" = true,
+    "method.response.header.Access-Control-Allow-Origin"  = true,
+  }
+}
+
+resource "aws_api_gateway_integration_response" "get_integration_response" {
+  rest_api_id = aws_api_gateway_rest_api.crc_api_infra_api.id
+  resource_id = aws_api_gateway_rest_api.crc_api_infra_api.root_resource_id
+  http_method = aws_api_gateway_method.get.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'*'",
+    "method.response.header.Access-Control-Allow-Methods" = "'POST,OPTIONS,GET,PUT,PATCH,DELETE'",
+    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+  }
+}
+
+resource "aws_api_gateway_method_response" "put_method_response" {
+  depends_on      = [aws_api_gateway_method.put]
+  rest_api_id     = aws_api_gateway_rest_api.crc_api_infra_api.id
+  resource_id     = aws_api_gateway_rest_api.crc_api_infra_api.root_resource_id
+  http_method     = aws_api_gateway_method.put.http_method
+  status_code     = 200
+  response_models = { "application/json" = "Empty" }
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true,
+    "method.response.header.Access-Control-Allow-Methods" = true,
+    "method.response.header.Access-Control-Allow-Origin"  = true,
+  }
+}
+
+resource "aws_api_gateway_integration_response" "put_integration_response" {
+  rest_api_id = aws_api_gateway_rest_api.crc_api_infra_api.id
+  resource_id = aws_api_gateway_rest_api.crc_api_infra_api.root_resource_id
+  http_method = aws_api_gateway_method.put.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'*'",
+    "method.response.header.Access-Control-Allow-Methods" = "'POST,OPTIONS,GET,PUT,PATCH,DELETE'",
+    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+  }
+}
+
 resource "aws_api_gateway_deployment" "apigw-deployment" {
   depends_on = [
     aws_api_gateway_integration.apigw-integration-get,
