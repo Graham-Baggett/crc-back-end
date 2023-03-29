@@ -50,7 +50,7 @@ resource "aws_api_gateway_integration" "apigw-integration-put" {
 }
 
 resource "aws_api_gateway_method_response" "get_method_response" {
-  depends_on      = [aws_api_gateway_method.get]
+  depends_on      = [aws_lambda_function.get_visitor_count_function, aws_api_gateway_method.get]
   rest_api_id     = aws_api_gateway_rest_api.crc_api_infra_api.id
   resource_id     = aws_api_gateway_rest_api.crc_api_infra_api.root_resource_id
   http_method     = aws_api_gateway_method.get.http_method
@@ -61,10 +61,6 @@ resource "aws_api_gateway_method_response" "get_method_response" {
     "method.response.header.Access-Control-Allow-Methods" = true,
     "method.response.header.Access-Control-Allow-Origin"  = true,
   }
-  
-  depends_on = [
-    aws_api_gateway_method.get
-  ]
 }
 
 resource "aws_api_gateway_integration_response" "get_integration_response" {
@@ -86,7 +82,7 @@ resource "aws_api_gateway_integration_response" "get_integration_response" {
 }
 
 resource "aws_api_gateway_method_response" "put_method_response" {
-  depends_on      = [aws_api_gateway_method.put]
+  depends_on      = [aws_lambda_function.increment_visitor_count_function, aws_api_gateway_method.put]
   rest_api_id     = aws_api_gateway_rest_api.crc_api_infra_api.id
   resource_id     = aws_api_gateway_rest_api.crc_api_infra_api.root_resource_id
   http_method     = aws_api_gateway_method.put.http_method
@@ -97,10 +93,6 @@ resource "aws_api_gateway_method_response" "put_method_response" {
     "method.response.header.Access-Control-Allow-Methods" = true,
     "method.response.header.Access-Control-Allow-Origin"  = true,
   }
-  
-  depends_on = [
-    aws_api_gateway_method.put
-  ]
 }
 
 resource "aws_api_gateway_integration_response" "put_integration_response" {
