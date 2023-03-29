@@ -61,6 +61,10 @@ resource "aws_api_gateway_method_response" "get_method_response" {
     "method.response.header.Access-Control-Allow-Methods" = true,
     "method.response.header.Access-Control-Allow-Origin"  = true,
   }
+  
+  depends_on = [
+    aws_api_gateway_method.get
+  ]
 }
 
 resource "aws_api_gateway_integration_response" "get_integration_response" {
@@ -93,6 +97,10 @@ resource "aws_api_gateway_method_response" "put_method_response" {
     "method.response.header.Access-Control-Allow-Methods" = true,
     "method.response.header.Access-Control-Allow-Origin"  = true,
   }
+  
+  depends_on = [
+    aws_api_gateway_method.put
+  ]
 }
 
 resource "aws_api_gateway_integration_response" "put_integration_response" {
