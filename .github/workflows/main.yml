@@ -48,7 +48,7 @@ jobs:
           ls -la
           pwd
       - name: Scan SBOM
-        uses: anchore/scan-action@dafbc97d7259af88b61bd260f2fde565d0668a72 # v3.3.4
+        uses: anchore/scan-action@4be3c24559b430723e51858969965e163b196957 # v3.3.5
         with:
           sbom: sbom.spdx
       - name: Run tests and linting
