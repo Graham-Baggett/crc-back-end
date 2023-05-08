@@ -87,7 +87,7 @@ jobs:
             sts.us-east-1.amazonaws.com:443
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@19f3a6d67f2300788235c77ce0c6244d1fd6a983 # master
+        uses: aws-actions/configure-aws-credentials@6fbd316fd15f52c3d9f68e7aa06eae4f5699a518 # master
         with:
           aws-region: us-east-1
           role-to-assume: ${{ secrets.WRITE_ROLE }}
