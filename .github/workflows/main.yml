@@ -13,14 +13,19 @@ jobs:
   test-lambda:
     runs-on: ubuntu-latest
     env:
+      BRANCH_NAME: "oci"
+      BUCKET_NAME: "gb-cloud-resume"
       OCI_CLI_COMPARTMENT_OCID: ${{ secrets.OCI_CLI_COMPARTMENT_OCID }}
       OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
       OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
       OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
       OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }} #The OCID of the tenancy
       OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }} #The OCID of the user     
-      BUCKET_NAME: "gb-cloud-resume"
-      PROVIDER_NAME: "GitHub Source Provider (Front-End)"
+      PROVIDER_NAME: "GitHub Source Provider"
+      REPO_URL: "https://github.com/Graham-Baggett/crc-back-end"
+      STACK_NAME: "Cloud Resume Challenge Back-End Stack"
+      TF_VERSION: "1.2.x"
+      WORKING_DIRECTORY: ./terraform
 
     steps:    
       - name: Install OCI and run a command
@@ -36,12 +41,22 @@ jobs:
         run: |
           echo "SOURCE_PROVIDER_ID=$(oci resource-manager configuration-source-provider list \
           --compartment-id $OCI_CLI_COMPARTMENT_OCID | jq '.data.items[] | select(."display-name"==env.PROVIDER_NAME).id' -r)" >> $GITHUB_ENV
-      - name: Check SOURCE_PROVIDER_ID
-        if: ${{env.SOURCE_PROVIDER_ID == ''}}
-        run: echo "SOURCE_PROVIDER_ID is equal to ''!!!!!"
-      - name: Check SOURCE_PROVIDER_ID
-        if: ${{env.SOURCE_PROVIDER_ID != ''}}
-        run: echo "SOURCE_PROVIDER_ID is not equal to ''!!!!!"
+      - name: Check OCI Resource Stack
+        run: |
+          echo "STACK_ID=$(oci resource-manager stack list --all --compartment-id $OCI_CLI_COMPARTMENT_OCID | jq '.data[] | select(."display-name"==env.STACK_NAME).id' -r)" >> $GITHUB_ENV
+      - name: Create Cloud Resume Challenge Stack
+        if: ${{env.STACK_ID == ''}}
+        run: |
+            echo "STACK_ID=$(oci resource-manager stack create-from-git-provider \
+            --compartment-id $OCI_CLI_COMPARTMENT_OCID \
+            --config-source-configuration-source-provider-id $SOURCE_PROVIDER_ID \
+            --config-source-branch-name $BRANCH_NAME \
+            --config-source-repository-url $REPO_URL \
+            --config-source-working-directory $WORKING_DIRECTORY \
+            --display-name "$STACK_NAME" \
+            --terraform-version $TF_VERSION \
+            --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "tenancy_ocid": "${{ secrets.OCI_CLI_TENANCY }}"}' \
+            --wait-for-state SUCCEEDED | jq '.data.id' -r)" >> $GITHUB_ENV
           
 #       - name: Harden Runner
 #         uses: step-security/harden-runner@128a63446a954579617e875aaab7d2978154e969 # v2.4.0
