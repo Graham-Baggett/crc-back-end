@@ -36,7 +36,12 @@ jobs:
         run: |
           echo "SOURCE_PROVIDER_ID=$(oci resource-manager configuration-source-provider list \
           --compartment-id $OCI_CLI_COMPARTMENT_OCID | jq '.data.items[] | select(."display-name"==env.PROVIDER_NAME).id' -r)" >> $GITHUB_ENV
-          echo ${{env.SOURCE_PROVIDER_ID}}
+      - name: Check SOURCE_PROVIDER_ID
+        if: ${{env.SOURCE_PROVIDER_ID == ''}}
+        run: echo "SOURCE_PROVIDER_ID is equal to ''!!!!!"
+      - name: Check SOURCE_PROVIDER_ID
+        if: ${{env.SOURCE_PROVIDER_ID != ''}}
+        run: echo "SOURCE_PROVIDER_ID is not equal to ''!!!!!"
           
 #       - name: Harden Runner
 #         uses: step-security/harden-runner@128a63446a954579617e875aaab7d2978154e969 # v2.4.0
