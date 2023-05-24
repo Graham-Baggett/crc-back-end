@@ -20,30 +20,14 @@ jobs:
       OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
       BUCKET_NAME: "gb-cloud-resume"
 
-    steps:
-      - name: 'Install OCI CLI'
-        run: |
-          curl -L -O https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
-          chmod +x install.sh
-          ./install.sh --accept-all-defaults
-          echo "::add-path::/home/runner/bin"
-          exec -l $SHELL
-    
-#       - name: Install OCI and run a command
-#         uses: oracle-actions/run-oci-cli-command@v1.1.1
-#         id: list-bucket-contents
-#         with:
-#            command: 'os object list --bucket-name ${{env.BUCKET_NAME}}'
-#           #command: 'oci setup repair-file-permissions --file /home/runner/.oci/config'
-          
-      - name: Check for config
-        run: |
-          ls -la
-          cd /home/runner
-          ls -la
-          cd bin
-          ls -la
-    
+    steps:    
+      - name: Install OCI and run a command
+        uses: oracle-actions/run-oci-cli-command@v1.1.1
+        id: list-bucket-contents
+        with:
+          command: 'oci os ns get'
+          # command: 'os object list --bucket-name ${{env.BUCKET_NAME}}'
+          #command: 'oci setup repair-file-permissions --file /home/runner/.oci/config'    
     
 #       - name: Harden Runner
 #         uses: step-security/harden-runner@128a63446a954579617e875aaab7d2978154e969 # v2.4.0
