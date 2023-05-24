@@ -8,8 +8,8 @@ resource "oci_nosql_table" "home_page" {
   is_auto_reclaimable = var.table_is_auto_reclaimable
   name                = var.visitor_count_table_name
   table_limits {
-    max_read_units     = var.table_limits_max_read_units"50"
-    max_storage_in_gbs = var.table_limits_max_storage_in_gbs"25"
-    max_write_units    = var.table_limits_max_write_units"50"
+    max_read_units     = var.table_limits_max_read_units
+    max_storage_in_gbs = var.table_limits_max_storage_in_gbs
+    max_write_units    = var.table_limits_max_write_units
   }
 }
