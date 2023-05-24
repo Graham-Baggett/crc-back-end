@@ -1,5 +1,5 @@
-name: Python Testing and AWS Back-End Infrastructure Deployment
-run-name: ${{ github.actor }} is testing and deploying Back-End Infrastructure update in GitHub Actions 🚀
+name: OCI Back-End Infrastructure Interaction
+run-name: ${{ github.actor }} is interacting with OCI Back-End Infrastructure in GitHub Actions 🚀
 
 on: 
   push:
@@ -28,8 +28,7 @@ jobs:
            command: 'os object list --bucket-name ${{env.BUCKET_NAME}}'
           #command: 'oci setup repair-file-permissions --file /home/runner/.oci/config'
       - name: Check for config
-        run: pwd
-             ls -la
+        run: ls -la
     
     
 #       - name: Harden Runner
