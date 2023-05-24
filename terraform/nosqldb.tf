@@ -3,7 +3,6 @@ resource "oci_nosql_table" "home_page" {
   ddl_statement  = var.table_ddl_statement
   defined_tags = {
     "Oracle-Tags.CreatedBy" = "default/grahambaggett@gmail.com"
-    "Oracle-Tags.CreatedOn" = "2023-05-24T13:28:40.438Z"
   }
   is_auto_reclaimable = var.table_is_auto_reclaimable
   name                = var.visitor_count_table_name
