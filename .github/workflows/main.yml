@@ -21,25 +21,17 @@ jobs:
       BUCKET_NAME: "gb-cloud-resume"
 
     steps:
-    - name: Install oci-cli
-      uses: bytesbay/oci-cli-action@v1.0.2
-      with:
-        user: "${{ secrets.OCI_CLI_USER }}"
-        fingerprint: "${{ secrets.OCI_CLI_FINGERPRINT }}"
-        tenancy: "${{ secrets.OCI_CLI_TENANCY }}"
-        region: "${{ secrets.OCI_CLI_REGION }}"
-        api_key: |
-          ${{ secrets.OCI_CLI_KEY_CONTENT }}
-        verbose: true
-#       - name: Install OCI and run a command
-#         uses: oracle-actions/run-oci-cli-command@v1.1.1
-#         id: list-bucket-contents
-#         with:
-#            command: 'os object list --bucket-name ${{env.BUCKET_NAME}}'
+      - name: Install OCI and run a command
+        uses: oracle-actions/run-oci-cli-command@v1.1.1
+        id: list-bucket-contents
+        with:
+           command: 'os object list --bucket-name ${{env.BUCKET_NAME}}'
           #command: 'oci setup repair-file-permissions --file /home/runner/.oci/config'
           
-    - name: Check for config
-      run: ls -la
+      - name: Check for config
+        run: |
+          cd /home/runner
+          ls -la
     
     
 #       - name: Harden Runner
