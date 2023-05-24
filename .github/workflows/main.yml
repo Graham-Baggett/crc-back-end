@@ -13,21 +13,29 @@ jobs:
   test-lambda:
     runs-on: ubuntu-latest
     env:
-      OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }} #The OCID of the user
-      OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }} #The OCID of the tenancy
+      OCI_CLI_COMPARTMENT_OCID: ${{ secrets.OCI_CLI_COMPARTMENT_OCID }}
       OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
       OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
       OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
+      OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }} #The OCID of the tenancy
+      OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }} #The OCID of the user     
       BUCKET_NAME: "gb-cloud-resume"
+      PROVIDER_NAME: "GitHub Source Provider (Front-End)"
 
     steps:    
       - name: Install OCI and run a command
         uses: oracle-actions/run-oci-cli-command@v1.1.1
         id: list-bucket-contents
         with:
-          command: 'oci os ns get'
+          command: 'os ns get'
           # command: 'os object list --bucket-name ${{env.BUCKET_NAME}}'
           #command: 'oci setup repair-file-permissions --file /home/runner/.oci/config'    
+          
+###############     MANAGE TERRAFORM STACK     ######################################
+      - name: Check Configuration Source Provider
+        run: |
+          echo "SOURCE_PROVIDER_ID=$(oci resource-manager configuration-source-provider list \
+          --compartment-id $OCI_CLI_COMPARTMENT_OCID | jq '.data.items[] | select(."display-name"==env.PROVIDER_NAME).id' -r)" >> $GITHUB_ENV
     
 #       - name: Harden Runner
 #         uses: step-security/harden-runner@128a63446a954579617e875aaab7d2978154e969 # v2.4.0
