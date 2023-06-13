@@ -79,11 +79,11 @@ variable "region" {
 #   description = "Max number of write capacity units for the home_page table"
 # }
 
-# #value defined in the variables section in OCI Resource Manager
-# variable "tenancy_ocid" {
-#   type        = string
-#   description = "Tenancy OCID"
-# }
+#value defined in the variables section in OCI Resource Manager
+variable "tenancy_ocid" {
+  type        = string
+  description = "Tenancy OCID"
+}
 
 # variable "visitor_count_table_name" {
 #   type        = string
