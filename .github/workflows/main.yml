@@ -29,28 +29,34 @@ jobs:
       WORKING_DIRECTORY: ./terraform
 
     steps:    
-      - name: Install OCI and run a command
-        uses: oracle-actions/run-oci-cli-command@v1.1.1
-        id: list-bucket-contents
-        with:
-          command: 'os ns get'
+#       - name: Install OCI and run a command
+#         uses: oracle-actions/run-oci-cli-command@v1.1.1
+#         id: list-bucket-contents
+#         with:
+#           command: 'os ns get'
           # command: 'os object list --bucket-name ${{env.BUCKET_NAME}}'
           #command: 'oci setup repair-file-permissions --file /home/runner/.oci/config'    
+          
+      - uses: actions/checkout@v3
+      - uses: gvenzl/setup-oracle-sqlcl@v1
+      - name: Run SQLcl
+        run: |
+          sql -version
           
 ###############     MANAGE TERRAFORM STACK     ######################################
 #       - name: Check Configuration Source Provider
 #         run: |
 #           echo "SOURCE_PROVIDER_ID=$(oci resource-manager configuration-source-provider list \
 #           --compartment-id $OCI_CLI_COMPARTMENT_OCID | jq '.data.items[] | select(."display-name"==env.PROVIDER_NAME).id' -r)" >> $GITHUB_ENV
-      - name: Check OCI Resource Stack
-        run: |
-          echo "STACK_ID=$(oci resource-manager stack list --all --compartment-id $OCI_CLI_COMPARTMENT_OCID | jq '.data[] | select(."display-name"==env.STACK_NAME).id' -r)" >> $GITHUB_ENV
-      - name: Update Stack
-        run: |
-          oci resource-manager stack update \
-            --stack-id $STACK_ID \
-            --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "db_admin_password": "${{env.OCI_CLI_DB_ADMIN_PASSWORD}}", "tenancy_ocid": "${{ secrets.OCI_CLI_TENANCY }}"}' \
-            --force
+#       - name: Check OCI Resource Stack
+#         run: |
+#           echo "STACK_ID=$(oci resource-manager stack list --all --compartment-id $OCI_CLI_COMPARTMENT_OCID | jq '.data[] | select(."display-name"==env.STACK_NAME).id' -r)" >> $GITHUB_ENV
+#       - name: Update Stack
+#         run: |
+#           oci resource-manager stack update \
+#             --stack-id $STACK_ID \
+#             --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "db_admin_password": "${{env.OCI_CLI_DB_ADMIN_PASSWORD}}", "tenancy_ocid": "${{ secrets.OCI_CLI_TENANCY }}"}' \
+#             --force
 #       - name: Create Cloud Resume Challenge Stack
 #         if: ${{env.STACK_ID == ''}}
 #         run: |
@@ -65,25 +71,25 @@ jobs:
 #             --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "tenancy_ocid": "${{ secrets.OCI_CLI_TENANCY }}"}' \
 #             --wait-for-state SUCCEEDED \
 #             --wait-for-state FAILED | jq '.data.id' -r)" >> $GITHUB_ENV
-      - name: Create Cloud Resume Challenge Plan Job
-        if: ${{env.STACK_ID != ''}}
-        run: |
-          echo "PLAN_JOB_ID=$(oci resource-manager job create-plan-job \
-            --display-name "Terraform plan for updating OCI front-end infrastructure" \
-            --stack-id $STACK_ID \
-            --wait-for-state SUCCEEDED \
-            --wait-for-state FAILED \
-            --max-wait-seconds 45 | jq '.data.id' -r)" >> $GITHUB_ENV
-      - name: Apply Cloud Resume Challenge Plan Job
-        if: ${{env.PLAN_JOB_ID != ''}}
-        run: |
-          echo "APPLY_JOB_ID=$(oci resource-manager job create-apply-job \
-            --display-name "Terraform apply for updating OCI front-end infrastructure" \
-            --execution-plan-strategy FROM_PLAN_JOB_ID \
-            --execution-plan-job-id $PLAN_JOB_ID \
-            --stack-id $STACK_ID \
-            --wait-for-state SUCCEEDED \
-            --wait-for-state FAILED | jq '.data.id' -r)" >> $GITHUB_ENV
+#       - name: Create Cloud Resume Challenge Plan Job
+#         if: ${{env.STACK_ID != ''}}
+#         run: |
+#           echo "PLAN_JOB_ID=$(oci resource-manager job create-plan-job \
+#             --display-name "Terraform plan for updating OCI front-end infrastructure" \
+#             --stack-id $STACK_ID \
+#             --wait-for-state SUCCEEDED \
+#             --wait-for-state FAILED \
+#             --max-wait-seconds 45 | jq '.data.id' -r)" >> $GITHUB_ENV
+#       - name: Apply Cloud Resume Challenge Plan Job
+#         if: ${{env.PLAN_JOB_ID != ''}}
+#         run: |
+#           echo "APPLY_JOB_ID=$(oci resource-manager job create-apply-job \
+#             --display-name "Terraform apply for updating OCI front-end infrastructure" \
+#             --execution-plan-strategy FROM_PLAN_JOB_ID \
+#             --execution-plan-job-id $PLAN_JOB_ID \
+#             --stack-id $STACK_ID \
+#             --wait-for-state SUCCEEDED \
+#             --wait-for-state FAILED | jq '.data.id' -r)" >> $GITHUB_ENV
           
 #       - name: Harden Runner
 #         uses: step-security/harden-runner@128a63446a954579617e875aaab7d2978154e969 # v2.4.0
