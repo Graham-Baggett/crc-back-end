@@ -9,7 +9,7 @@ data "oci_database_autonomous_databases" "crc_autonomous_databases" {
 
 resource "oci_database_autonomous_database" "crc_autonomous_database" {
   #Required
-  admin_password           = var.admin_password
+  admin_password           = var.db_admin_password
   compartment_id           = var.compartment_ocid
   cpu_core_count           = "1"
   data_storage_size_in_tbs = "1"
