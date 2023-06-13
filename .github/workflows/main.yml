@@ -16,6 +16,7 @@ jobs:
       BRANCH_NAME: "oci"
       BUCKET_NAME: "gb-cloud-resume"
       OCI_CLI_COMPARTMENT_OCID: ${{ secrets.OCI_CLI_COMPARTMENT_OCID }}
+      OCI_CLI_DB_ADMIN_PASSWORD: ${{ secrets.OCI_CLI_DB_ADMIN_PASSWORD }}
       OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
       OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
       OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
@@ -44,6 +45,12 @@ jobs:
       - name: Check OCI Resource Stack
         run: |
           echo "STACK_ID=$(oci resource-manager stack list --all --compartment-id $OCI_CLI_COMPARTMENT_OCID | jq '.data[] | select(."display-name"==env.STACK_NAME).id' -r)" >> $GITHUB_ENV
+      - name: Update Stack
+        run: |
+          oci resource-manager stack update \
+            --stack-id $STACK_ID \
+            --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "db_admin_password": "${{env.OCI_CLI_DB_ADMIN_PASSWORD}}", "tenancy_ocid": "${{ secrets.OCI_CLI_TENANCY }}"}' \
+            --force
 #       - name: Create Cloud Resume Challenge Stack
 #         if: ${{env.STACK_ID == ''}}
 #         run: |
