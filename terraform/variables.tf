@@ -26,6 +26,12 @@ variable "db_workload" {
   description = "The type of database workload handled by the database (OLTP, DW, Autonomous JSON, or APEX)"
 }
 
+variable "is_auto_scaling_enabled" {
+  type        = string
+  default     = "false"
+  description = "Defines whether or not auto-scaling is enabled on the autonomous database"
+}
+
 variable "is_free_tier" {
   type        = string
   default     = "true"
