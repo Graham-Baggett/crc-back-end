@@ -37,11 +37,13 @@ jobs:
           # command: 'os object list --bucket-name ${{env.BUCKET_NAME}}'
           #command: 'oci setup repair-file-permissions --file /home/runner/.oci/config'    
           
-      - uses: actions/checkout@v3
-      - uses: gvenzl/setup-oracle-sqlcl@v1
-      - name: Run SQLcl
-        run: |
-          sql -version
+#       - uses: actions/checkout@v3
+#       - uses: gvenzl/setup-oracle-sqlcl@v1
+#       - name: Run SQLcl
+#         run: |
+#           sql -version
+      - name: 🔎 Check IP
+        run: curl https://api.ipify.org
           
 ###############     MANAGE TERRAFORM STACK     ######################################
 #       - name: Check Configuration Source Provider
