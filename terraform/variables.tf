@@ -52,6 +52,12 @@ variable "license_model" {
   description = "Indicates whether the license is included or part of Bring Your Own License (BYOL)"
 }
 
+variable "public_subnet_name" {
+  type        = string
+  default     = "cloud-resume-challenge-public-subnet"
+  description = "Display Name of the public subnet of the Virtual Cloud Network"
+}
+
 variable "private_key_path" {
   default = ""
 }
