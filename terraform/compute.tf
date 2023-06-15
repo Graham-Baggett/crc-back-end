@@ -1,8 +1,3 @@
-data "oci_identity_availability_domain" "ad" {
-  compartment_id = var.tenancy_ocid
-  ad_number      = 1
-}
-
 data "oci_core_images" "oracle_linux_images" {
   compartment_id           = var.compartment_ocid
   operating_system         = "Oracle Linux"
@@ -10,6 +5,19 @@ data "oci_core_images" "oracle_linux_images" {
   shape                    = var.instance_shape
   sort_by                  = "TIMECREATED"
   sort_order               = "DESC"
+}
+
+data "oci_core_subnets" "public_subnets" {
+    #Required
+    compartment_id = var.compartment_id
+
+    #Optional
+    display_name = var.public_subnet_name
+}
+
+data "oci_identity_availability_domain" "ad" {
+  compartment_id = var.tenancy_ocid
+  ad_number      = 1
 }
 
 resource "oci_core_instance" "free_instance1" {
@@ -24,7 +32,7 @@ resource "oci_core_instance" "free_instance1" {
   }
 
   create_vnic_details {
-    subnet_id        = oci_core_subnet.public_subnet.id
+    subnet_id        = oci_core_subnets.public_subnets.id
     display_name     = "primaryvnic"
     assign_public_ip = true
     hostname_label   = "freeinstance1"
