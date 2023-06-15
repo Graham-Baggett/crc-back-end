@@ -78,6 +78,7 @@ jobs:
           echo "PLAN_JOB_ID=$(oci resource-manager job create-plan-job \
             --display-name "Terraform plan for updating OCI front-end infrastructure" \
             --stack-id $STACK_ID \
+            --terraform-advanced-options '{"detailedLogLevel": "DEBUG", "parallelism": 20, "isRefreshRequired": true}' \
             --wait-for-state SUCCEEDED \
             --wait-for-state FAILED \
             --max-wait-seconds 45 | jq '.data.id' -r)" >> $GITHUB_ENV
