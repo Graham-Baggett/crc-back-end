@@ -21,7 +21,7 @@ data "oci_identity_availability_domain" "ad" {
 }
 
 # resource "oci_core_instance" "free_instance1" {
-#   availability_domain = data.oci_identity_availability_domains.ads.name
+#   availability_domain = data.oci_identity_availability_domain.ad.name
 #   compartment_id      = var.compartment_ocid
 #   display_name        = "freeInstance1"
 #   shape               = var.instance_shape
