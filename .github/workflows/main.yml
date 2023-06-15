@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  test-lambda:
+  update-oci:
     runs-on: ubuntu-latest
     env:
       BRANCH_NAME: "oci"
@@ -89,6 +89,7 @@ jobs:
             --execution-plan-strategy FROM_PLAN_JOB_ID \
             --execution-plan-job-id $PLAN_JOB_ID \
             --stack-id $STACK_ID \
+            --terraform-advanced-options '{"detailedLogLevel": "DEBUG", "parallelism": 20, "isRefreshRequired": true}' \
             --wait-for-state SUCCEEDED \
             --wait-for-state FAILED | jq '.data.id' -r)" >> $GITHUB_ENV
           
