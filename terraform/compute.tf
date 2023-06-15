@@ -15,7 +15,7 @@ data "oci_core_subnets" "public_subnets" {
     display_name = var.public_subnet_name
 }
 
-data "oci_identity_availability_domains" "ads" {
+data "oci_identity_availability_domain" "ad" {
   compartment_id = var.tenancy_ocid
   ad_number      = 1
 }
@@ -60,6 +60,6 @@ output "generated_private_key_pem" {
 
 # The "name" of the availability domain to be used for the compute instance.
 output "name-of-first-availability-domain" {
-  value = data.oci_identity_availability_domains.ads.name
+  value = data.oci_identity_availability_domain.ad.name
   #value = data.oci_identity_availability_domains.ads.availability_domains[0].name
 }
