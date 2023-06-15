@@ -26,6 +26,14 @@ variable "db_workload" {
   description = "The type of database workload handled by the database (OLTP, DW, Autonomous JSON, or APEX)"
 }
 
+variable "instance_ocpus" { default = 1 }
+
+variable "instance_shape" {
+  default = "VM.Standard.A1.Flex" # Or VM.Standard.E2.1.Micro
+}
+
+variable "instance_shape_config_memory_in_gbs" { default = 6 }
+
 variable "is_auto_scaling_enabled" {
   type        = string
   default     = "false"
@@ -44,11 +52,27 @@ variable "license_model" {
   description = "Indicates whether the license is included or part of Bring Your Own License (BYOL)"
 }
 
+variable "private_key_path" {
+  default = ""
+}
+
 variable "region" {
   type        = string
   description = "Default region for the application"
 }
 
+variable "ssh_public_key" {
+  default = ""
+}
+
+#value defined in the variables section in OCI Resource Manager
+variable "tenancy_ocid" {
+  type        = string
+  description = "Tenancy OCID"
+}
+
+
+## variables for NoSQL table, but this service is not currently 'Always Free' in every OCI region
 # variable "table_ddl_statement" {
 #   type        = string
 #   default     = "CREATE TABLE home_page ( row_id integer, visitor_count integer DEFAULT 0, PRIMARY KEY ( row_id ) )"
@@ -78,12 +102,6 @@ variable "region" {
 #   default     = "50"
 #   description = "Max number of write capacity units for the home_page table"
 # }
-
-#value defined in the variables section in OCI Resource Manager
-variable "tenancy_ocid" {
-  type        = string
-  description = "Tenancy OCID"
-}
 
 # variable "visitor_count_table_name" {
 #   type        = string
