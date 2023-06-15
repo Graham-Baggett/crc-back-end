@@ -1,0 +1,4 @@
+CREATE SEQUENCE visitor_count_sequence
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE;
