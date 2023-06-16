@@ -26,6 +26,8 @@ variable "db_workload" {
   description = "The type of database workload handled by the database (OLTP, DW, Autonomous JSON, or APEX)"
 }
 
+variable export_free_instance1_source_image_id { default = "ocid1.image.oc1.iad.aaaaaaaarxv4fl2ktujk4amgkfj4g2tjju5dlzym644cmqfzpno3jlypuzva" }
+
 variable "instance_ocpus" { default = 1 }
 
 variable "instance_shape" {
