@@ -63,3 +63,8 @@ output "name-of-first-availability-domain" {
   value = data.oci_identity_availability_domain.ad.name
   #value = data.oci_identity_availability_domains.ads.availability_domains[0].name
 }
+
+# The source_id of the Oracle Linux Image
+output "oracle-linux-image-source-id" {
+  value = lookup(data.oci_core_images.oracle_linux_images.images[0], "id")
+}
