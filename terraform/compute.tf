@@ -20,7 +20,7 @@ data "oci_identity_availability_domain" "ad" {
   ad_number      = 1
 }
 
-resource oci_core_instance free_instance1 {
+resource oci_core_instance export_free_instance1 {
   agent_config {
     are_all_plugins_disabled = "false"
     is_management_disabled   = "false"
@@ -54,14 +54,16 @@ resource oci_core_instance free_instance1 {
       name          = "Bastion"
     }
   }
-
+  #async = <<Optional value not found in discovery>>
   availability_config {
+    #is_live_migration_preferred = <<Optional value not found in discovery>>
     recovery_action = "RESTORE_INSTANCE"
   }
   availability_domain = "IPsT:US-ASHBURN-AD-1"
-  
+  #capacity_reservation_id = <<Optional value not found in discovery>>
   compartment_id = var.compartment_ocid
   create_vnic_details {
+    #assign_private_dns_record = <<Optional value not found in discovery>>
     assign_public_ip = "true"
     defined_tags = {
       "Oracle-Tags.CreatedBy" = "default/grahambaggett@gmail.com"
@@ -70,15 +72,15 @@ resource oci_core_instance free_instance1 {
     display_name = "vnic20230616132159"
     freeform_tags = {
     }
-    
+    #hostname_label = <<Optional value not found in discovery>>
     nsg_ids = [
     ]
     private_ip             = "10.0.2.112"
     skip_source_dest_check = "false"
     subnet_id              = data.oci_core_subnets.public_subnets.id
-    
+    #vlan_id = <<Optional value not found in discovery>>
   }
-
+  #dedicated_vm_host_id = <<Optional value not found in discovery>>
   defined_tags = {
     "Oracle-Tags.CreatedBy" = "default/grahambaggett@gmail.com"
     "Oracle-Tags.CreatedOn" = "2023-06-16T13:21:53.926Z"
@@ -92,7 +94,8 @@ resource oci_core_instance free_instance1 {
   instance_options {
     are_legacy_imds_endpoints_disabled = "false"
   }
-
+  #ipxe_script = <<Optional value not found in discovery>>
+  #is_pv_encryption_in_transit_enabled = <<Optional value not found in discovery>>
   launch_options {
     boot_volume_type                    = "PARAVIRTUALIZED"
     firmware                            = "UEFI_64"
@@ -102,9 +105,9 @@ resource oci_core_instance free_instance1 {
     remote_data_volume_type             = "PARAVIRTUALIZED"
   }
   metadata = {
-        "ssh_authorized_keys" = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMzeMojo/qz2gZNWPcO42VInYL+PyeVFXmUGhrG+WjVx3fUP4ZQY1VFegvIJ93Xb621k1nfVkcq69iXqbL4Pv0m8tdOqPzJYcFTu607C9RB+xIddKrFvgn59xxuFF4gwMdyyfED8aI4lFecuUzQCYLqD9T6Gq1IndxFKwKaU2Wu6i29Ivgbu1eqziW3gGJawqLe3mnTvmpXN8XnwOExRGneeI8uHeiUHKMe2lueOU6n1nHeEpQGstlqkbjrlFfcIhwcotLyEj5DmYd+X/HfgATB7Azfr1TsW8Wmb0ymobVSfZAweZGhFAsjd6TMQKY3CFvPs1wI9B1SfAuTJoBN8Jv ssh-key-2023-06-16"
+    "ssh_authorized_keys" = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMzeMojo/qz2gZNWPcO42VInYL+PyeVFXmUGhrG+WjVx3fUP4ZQY1VFegvIJ93Xb621k1nfVkcq69iXqbL4Pv0m8tdOqPzJYcFTu607C9RB+xIddKrFvgn59xxuFF4gwMdyyfED8aI4lFecuUzQCYLqD9T6Gq1IndxFKwKaU2Wu6i29Ivgbu1eqziW3gGJawqLe3mnTvmpXN8XnwOExRGneeI8uHeiUHKMe2lueOU6n1nHeEpQGstlqkbjrlFfcIhwcotLyEj5DmYd+X/HfgATB7Azfr1TsW8Wmb0ymobVSfZAweZGhFAsjd6TMQKY3CFvPs1wI9B1SfAuTJoBN8Jv ssh-key-2023-06-16"
   }
-
+  #preserve_boot_volume = <<Optional value not found in discovery>>
   shape = "VM.Standard.A1.Flex"
   shape_config {
     baseline_ocpu_utilization = ""
@@ -112,7 +115,9 @@ resource oci_core_instance free_instance1 {
     ocpus                     = "1"
   }
   source_details {
-    source_id   = "ocid1.image.oc1.iad.aaaaaaaarxv4fl2ktujk4amgkfj4g2tjju5dlzym644cmqfzpno3jlypuzva"
+    #boot_volume_size_in_gbs = <<Optional value not found in discovery>>
+    #kms_key_id = <<Optional value not found in discovery>>
+    source_id   = var.export_free_instance1_source_image_id
     source_type = "image"
   }
   state = "RUNNING"
