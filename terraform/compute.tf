@@ -68,3 +68,7 @@ output "name-of-first-availability-domain" {
 output "oracle-linux-image-source-id" {
   value = lookup(data.oci_core_images.oracle_linux_images.images[0], "id")
 }
+
+output "public-subnet-id" {
+  value = data.oci_core_subnets.public_subnets.id
+}
