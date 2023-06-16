@@ -20,33 +20,33 @@ data "oci_identity_availability_domain" "ad" {
   ad_number      = 1
 }
 
-# resource "oci_core_instance" "free_instance1" {
-#   availability_domain = data.oci_identity_availability_domain.ad.name
-#   compartment_id      = var.compartment_ocid
-#   display_name        = "freeInstance1"
-#   shape               = var.instance_shape
+resource "oci_core_instance" "free_instance1" {
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+  display_name        = "freeInstance1"
+  shape               = var.instance_shape
 
-#   shape_config {
-#     ocpus = 1
-#     memory_in_gbs = 6
-#   }
+  shape_config {
+    ocpus = 1
+    memory_in_gbs = 6
+  }
 
-#   create_vnic_details {
-#     subnet_id        = data.oci_core_subnets.public_subnets.id
-#     display_name     = "primaryvnic"
-#     assign_public_ip = true
-#     hostname_label   = "freeinstance1"
-#   }
+  create_vnic_details {
+    subnet_id        = data.oci_core_subnets.public_subnets.id
+    display_name     = "primaryvnic"
+    assign_public_ip = true
+    hostname_label   = "freeinstance1"
+  }
 
-#   source_details {
-#     source_type = "image"
-#     source_id   = lookup(data.oci_core_images.oracle_linux_images.images[0], "id")
-#   }
+  source_details {
+    source_type = "image"
+    source_id   = lookup(data.oci_core_images.oracle_linux_images.images[0], "id")
+  }
 
-#   metadata = {
-#     ssh_authorized_keys = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key.public_key_openssh
-#   }
-# }
+  metadata = {
+    ssh_authorized_keys = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key.public_key_openssh
+  }
+}
 
 resource "tls_private_key" "compute_ssh_key" {
   algorithm = "RSA"
