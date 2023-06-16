@@ -102,7 +102,7 @@ resource oci_core_instance free_instance1 {
     remote_data_volume_type             = "PARAVIRTUALIZED"
   }
   metadata = {
-    "ssh_authorized_keys" = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key.public_key_openssh
+        "ssh_authorized_keys" = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMzeMojo/qz2gZNWPcO42VInYL+PyeVFXmUGhrG+WjVx3fUP4ZQY1VFegvIJ93Xb621k1nfVkcq69iXqbL4Pv0m8tdOqPzJYcFTu607C9RB+xIddKrFvgn59xxuFF4gwMdyyfED8aI4lFecuUzQCYLqD9T6Gq1IndxFKwKaU2Wu6i29Ivgbu1eqziW3gGJawqLe3mnTvmpXN8XnwOExRGneeI8uHeiUHKMe2lueOU6n1nHeEpQGstlqkbjrlFfcIhwcotLyEj5DmYd+X/HfgATB7Azfr1TsW8Wmb0ymobVSfZAweZGhFAsjd6TMQKY3CFvPs1wI9B1SfAuTJoBN8Jv ssh-key-2023-06-16"
   }
 
   shape = "VM.Standard.A1.Flex"
