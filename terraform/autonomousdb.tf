@@ -23,3 +23,13 @@ resource "oci_database_autonomous_database" "crc_autonomous_database" {
   license_model           = var.license_model
   is_free_tier            = var.is_free_tier
 }
+
+resource "oci_database_autonomous_database_wallet" "crc_autonomous_database_wallet" {
+    #Required
+    autonomous_database_id = oci_database_autonomous_database.crc_autonomous_databases.id
+    password = var.db_wallet_password
+
+    #Optional
+    base64_encode_content = "true"
+    generate_type = "SINGLE"
+}
