@@ -8,6 +8,11 @@ variable "db_admin_password" {
   description = "Administrator password for the Autonomous Database"
 }
 
+variable "db_wallet_password" {
+  type        = string
+  description = "Wallet password for the Autonomous Database"
+}
+
 variable "db_display_name" {
   type        = string
   default     = "crc_autonomous_database"
