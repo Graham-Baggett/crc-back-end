@@ -28,7 +28,7 @@ resource "oci_core_instance" "free_instance1" {
 
   shape_config {
     ocpus = 1
-    memory_in_gbs = 1
+    memory_in_gbs = 6
   }
 
   create_vnic_details {
