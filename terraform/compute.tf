@@ -26,27 +26,27 @@ resource "oci_core_instance" "free_instance1" {
   display_name        = "freeInstance1"
   shape               = var.instance_shape
 
-  shape_config {
-    ocpus = var.instance_ocpus
-    memory_in_gbs = var.instance_shape_config_memory_in_gbs
-  }
+  #shape_config {
+  #  ocpus = var.instance_ocpus
+  #  memory_in_gbs = var.instance_shape_config_memory_in_gbs
+  #}
 
-  create_vnic_details {
-    subnet_id        = data.oci_core_subnets.public_subnets.subnets[0].id
-    display_name     = "primaryvnic"
-    assign_public_ip = true
-    hostname_label   = "freeinstance1"
-  }
+  #create_vnic_details {
+  #  subnet_id        = data.oci_core_subnets.public_subnets.subnets[0].id
+  #  display_name     = "primaryvnic"
+  #  assign_public_ip = true
+  #  hostname_label   = "freeinstance1"
+  #}
 
-  source_details {
-    source_type = "image"
-    source_id   = data.oci_core_images.oracle_linux_images.images[0].id
-    boot_volume_size_in_gbs = 100
-  }
+  #source_details {
+  #  source_type = "image"
+  #  source_id   = data.oci_core_images.oracle_linux_images.images[0].id
+  #  boot_volume_size_in_gbs = 100
+  #}
 
-  metadata = {
-    ssh_authorized_keys = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key.public_key_openssh
-  }
+  #metadata = {
+  #  ssh_authorized_keys = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key.public_key_openssh
+  #}
 }
 
 resource "tls_private_key" "compute_ssh_key" {
