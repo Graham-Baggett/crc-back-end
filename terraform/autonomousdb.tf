@@ -26,7 +26,7 @@ resource "oci_database_autonomous_database" "crc_autonomous_database" {
 
 resource "oci_database_autonomous_database_wallet" "crc_autonomous_database_wallet" {
     #Required
-    autonomous_database_id = oci_database_autonomous_databases.crc_autonomous_databases.id
+    autonomous_database_id = data.oci_database_autonomous_databases.crc_autonomous_databases.id
     password = var.db_wallet_password
 
     #Optional
