@@ -20,11 +20,11 @@ data "oci_identity_availability_domain" "ad" {
   ad_number      = 1
 }
 
-resource "oci_core_instance" "free_instance2" {
+resource "oci_core_instance" "free_instance1" {
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
   display_name        = "freeInstance2"
-  shape               = "VM.Standard.E2.1.Micro"
+  shape               = var.instance_shape
 
   shape_config {
     ocpus = 1
@@ -35,7 +35,7 @@ resource "oci_core_instance" "free_instance2" {
     subnet_id        = data.oci_core_subnets.public_subnets.subnets[0].id
     display_name     = "primaryvnic"
     assign_public_ip = true
-    hostname_label   = "freeinstance2"
+    hostname_label   = "freeinstance1"
   }
 
   source_details {
