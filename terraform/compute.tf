@@ -23,12 +23,12 @@ data "oci_identity_availability_domain" "ad" {
 resource "oci_core_instance" "free_instance1" {
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
-  display_name        = "freeInstance2"
+  display_name        = "freeInstance1"
   shape               = var.instance_shape
 
   shape_config {
-    ocpus = 1
-    memory_in_gbs = 6
+    ocpus = var.instance_ocpus
+    memory_in_gbs = var.instance_shape_config_memory_in_gbs
   }
 
   create_vnic_details {
@@ -40,7 +40,7 @@ resource "oci_core_instance" "free_instance1" {
 
   source_details {
     source_type = "image"
-    source_id   = lookup(data.oci_core_images.oracle_linux_images.images[0], "id")
+    source_id   = data.oci_core_images.oracle_linux_images.images[0].id
     boot_volume_size_in_gbs = 100
   }
 
@@ -67,7 +67,7 @@ output "name-of-first-availability-domain" {
 
 # The source_id of the Oracle Linux Image
 output "oracle-linux-image-source-id" {
-  value = lookup(data.oci_core_images.oracle_linux_images.images[0], "id")
+  value = data.oci_core_images.oracle_linux_images.images[0].id
 }
 
 output "public-subnet-id" {
