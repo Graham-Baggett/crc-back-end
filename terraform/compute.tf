@@ -31,12 +31,12 @@ resource "oci_core_instance" "free_instance1" {
   #  memory_in_gbs = var.instance_shape_config_memory_in_gbs
   #}
 
-  #create_vnic_details {
-  #  subnet_id        = data.oci_core_subnets.public_subnets.subnets[0].id
-  #  display_name     = "primaryvnic"
-  #  assign_public_ip = true
-  #  hostname_label   = "freeinstance1"
-  #}
+  create_vnic_details {
+    subnet_id        = data.oci_core_subnets.public_subnets.subnets[0].id
+    display_name     = "primaryvnic"
+    assign_public_ip = true
+    hostname_label   = "freeinstance1"
+  }
 
   #source_details {
   #  source_type = "image"
