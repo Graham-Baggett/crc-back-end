@@ -35,5 +35,5 @@ resource "oci_database_autonomous_database" "crc_autonomous_database" {
 #}
 
 output "crc-autonomous-database-id" {
-  value = data.oci_database_autonomous_databases.crc_autonomous_databases.id
+  value = data.oci_database_autonomous_databases.crc_autonomous_databases.databases[0].id
 }
