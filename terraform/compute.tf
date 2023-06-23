@@ -35,7 +35,7 @@ resource "oci_core_instance" "free_instance1" {
     subnet_id        = data.oci_core_subnets.public_subnets.subnets[0].id
     display_name     = "primaryvnic"
     assign_public_ip = true
-    #hostname_label   = "freeinstance1"
+    #hostname_label   = "freeinstance1"  Don't use hostname_label since the public subnet does not have DNS enabled
   }
 
   source_details {
@@ -44,9 +44,9 @@ resource "oci_core_instance" "free_instance1" {
     boot_volume_size_in_gbs = 100
   }
 
-  #metadata = {
-  #  ssh_authorized_keys = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key.public_key_openssh
-  #}
+  metadata = {
+    ssh_authorized_keys = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key.public_key_openssh
+  }
 }
 
 resource "tls_private_key" "compute_ssh_key" {
@@ -54,10 +54,14 @@ resource "tls_private_key" "compute_ssh_key" {
   rsa_bits  = 2048
 }
 
-#output "generated_private_key_pem" {
-#  value     = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key.private_key_pem
-#  sensitive = true
-#}
+output "generated_private_key_pem" {
+  value     = tls_private_key.compute_ssh_key.private_key_pem
+  sensitive = true
+}
+
+output "generated_public_key" {
+  value     = tls_private_key.compute_ssh_key.public_key_openssh
+}
 
 # The "name" of the availability domain to be used for the compute instance.
 output "name-of-first-availability-domain" {
