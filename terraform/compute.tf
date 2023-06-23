@@ -54,10 +54,10 @@ data "oci_identity_availability_domain" "ad" {
 #  rsa_bits  = 2048
 #}
 
-output "generated_private_key_pem" {
-  value     = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key.private_key_pem
-  sensitive = true
-}
+#output "generated_private_key_pem" {
+#  value     = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key.private_key_pem
+#  sensitive = true
+#}
 
 # The "name" of the availability domain to be used for the compute instance.
 output "name-of-first-availability-domain" {
