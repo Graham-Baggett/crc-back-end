@@ -35,7 +35,7 @@ resource "oci_core_instance" "free_instance1" {
     subnet_id        = data.oci_core_subnets.public_subnets.subnets[0].id
     display_name     = "primaryvnic"
     assign_public_ip = true
-    hostname_label   = "freeinstance1"
+    #hostname_label   = "freeinstance1"
   }
 
   source_details {
