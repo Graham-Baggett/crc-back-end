@@ -19,6 +19,7 @@ jobs:
       OCI_CLI_DB_ADMIN_PASSWORD: ${{ secrets.OCI_CLI_DB_ADMIN_PASSWORD }}
       OCI_CLI_DB_WALLET_PASSWORD: ${{ secrets.OCI_CLI_DB_WALLET_PASSWORD }}
       OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
+      OCI_CLI_INSTANCE_IP_ADDRESS: ${{ secrets.OCI_CLI_INSTANCE_IP_ADDRESS }}
       OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
       OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
       OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }} #The OCID of the tenancy
@@ -57,7 +58,7 @@ jobs:
         run: |
           oci resource-manager stack update \
             --stack-id $STACK_ID \
-            --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "db_admin_password": "${{env.OCI_CLI_DB_ADMIN_PASSWORD}}", "db_wallet_password": "${{env.OCI_CLI_DB_WALLET_PASSWORD}}", "tenancy_ocid": "${{ secrets.OCI_CLI_TENANCY }}", "whitelisted_ips": "${{ secrets.OCI_CLI_INSTANCE_IP_ADDRESS }}"}' \
+            --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "db_admin_password": "${{env.OCI_CLI_DB_ADMIN_PASSWORD}}", "db_wallet_password": "${{env.OCI_CLI_DB_WALLET_PASSWORD}}", "tenancy_ocid": "${{env.OCI_CLI_TENANCY}}", "whitelisted_ips": "${{env.OCI_CLI_INSTANCE_IP_ADDRESS}}"}' \
             --force
 #       - name: Create Cloud Resume Challenge Stack
 #         if: ${{env.STACK_ID == ''}}
