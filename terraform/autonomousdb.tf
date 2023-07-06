@@ -19,7 +19,7 @@ resource "oci_database_autonomous_database" "crc_autonomous_database" {
   db_workload                 = var.db_workload
   display_name                = var.db_display_name
 
-  is_access_control_enabled   = var.is_access_control_enabled
+  #is_access_control_enabled   = var.is_access_control_enabled
   is_auto_scaling_enabled     = var.is_auto_scaling_enabled
   is_mtls_connection_required = var.is_mtls_connection_required
   is_free_tier                = var.is_free_tier
