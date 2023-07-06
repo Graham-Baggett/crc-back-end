@@ -58,7 +58,7 @@ jobs:
         run: |
           oci resource-manager stack update \
             --stack-id $STACK_ID \
-            --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "db_admin_password": "${{env.OCI_CLI_DB_ADMIN_PASSWORD}}", "db_wallet_password": "${{env.OCI_CLI_DB_WALLET_PASSWORD}}", "tenancy_ocid": "${{env.OCI_CLI_TENANCY}}"}' \
+            --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "db_admin_password": "${{env.OCI_CLI_DB_ADMIN_PASSWORD}}", "db_wallet_password": "${{env.OCI_CLI_DB_WALLET_PASSWORD}}", "tenancy_ocid": "${{env.OCI_CLI_TENANCY}}", "whitelisted_ips": "${{env.OCI_CLI_INSTANCE_IP_ADDRESS}}"}' \
             --force
 #       - name: Create Cloud Resume Challenge Stack
 #         if: ${{env.STACK_ID == ''}}
@@ -71,7 +71,7 @@ jobs:
 #             --config-source-working-directory $WORKING_DIRECTORY \
 #             --display-name "$STACK_NAME" \
 #             --terraform-version $TF_VERSION \
-#             --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "tenancy_ocid": "${{ secrets.OCI_CLI_TENANCY }}"}, "whitelisted_ips": "${{env.OCI_CLI_INSTANCE_IP_ADDRESS}}"' \
+#             --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "tenancy_ocid": "${{ secrets.OCI_CLI_TENANCY }}"}' \
 #             --wait-for-state SUCCEEDED \
 #             --wait-for-state FAILED | jq '.data.id' -r)" >> $GITHUB_ENV
 #       - name: Create Cloud Resume Challenge Plan Job
