@@ -41,6 +41,12 @@ variable "instance_shape" {
 
 variable "instance_shape_config_memory_in_gbs" { default = 24 }
 
+variable "is_access_control_enabled" {
+  type        = string
+  default     = "true"
+  description = "Defines whether or not database-level access control is enabled"
+}
+
 variable "is_auto_scaling_enabled" {
   type        = string
   default     = "false"
@@ -51,6 +57,12 @@ variable "is_free_tier" {
   type        = string
   default     = "true"
   description = "Defines whether or not the given resource is part of the OCI 'Always Free' Tier or not"
+}
+
+variable "is_mtls_connection_required" {
+  type        = string
+  default     = "false"
+  description = "Defines whether or not the database requires mutual Transport Layer Security connections"
 }
 
 variable "license_model" {
@@ -82,6 +94,10 @@ variable "ssh_public_key" {
 variable "tenancy_ocid" {
   type        = string
   description = "Tenancy OCID"
+}
+
+variable "whitelisted_ips" {
+  description = "Allowable IP Addresses for the database"
 }
 
 
@@ -121,6 +137,7 @@ variable "tenancy_ocid" {
 #   default     = "home_page"
 #   description = "Name of the NoSQLDB table that stores the visitor count"
 # }
+
 
 
 
