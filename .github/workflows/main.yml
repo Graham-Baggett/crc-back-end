@@ -71,7 +71,7 @@ jobs:
 #             --config-source-working-directory $WORKING_DIRECTORY \
 #             --display-name "$STACK_NAME" \
 #             --terraform-version $TF_VERSION \
-#             --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "tenancy_ocid": "${{ secrets.OCI_CLI_TENANCY }}"}' \
+#             --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "tenancy_ocid": "${{ secrets.OCI_CLI_TENANCY }}"}, "whitelisted_ips": "${{env.OCI_CLI_INSTANCE_IP_ADDRESS}}"' \
 #             --wait-for-state SUCCEEDED \
 #             --wait-for-state FAILED | jq '.data.id' -r)" >> $GITHUB_ENV
 #       - name: Create Cloud Resume Challenge Plan Job
