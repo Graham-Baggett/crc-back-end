@@ -17,7 +17,7 @@ data "oci_core_subnets" "public_subnets" {
 
 data "oci_identity_availability_domain" "ad" {
   compartment_id = var.tenancy_ocid
-  ad_number      = 1
+  ad_number      = var.ad_number
 }
 
 resource "oci_core_instance" "free_instance1" {
