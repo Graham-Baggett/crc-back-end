@@ -21,7 +21,7 @@ resource "oci_database_autonomous_database" "crc_autonomous_database" {
 
   #is_access_control_enabled   = var.is_access_control_enabled
   is_auto_scaling_enabled     = var.is_auto_scaling_enabled
-  is_mtls_connection_required = var.is_mtls_connection_required
+  #is_mtls_connection_required = var.is_mtls_connection_required #value may not be able to set in 'Always Free' mode.....
   is_free_tier                = var.is_free_tier
   license_model               = var.license_model
 }
