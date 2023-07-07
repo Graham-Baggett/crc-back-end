@@ -1,3 +1,7 @@
+variable "ad_number" { default = 3 }
+
+variable "boot_volume_size_in_gbs" { default = 50 }
+
 variable "compartment_ocid" {
   type        = string
   description = "OCID for the cloud-resume-challenge compartment"
@@ -36,10 +40,10 @@ variable export_free_instance1_source_image_id { default = "ocid1.image.oc1.iad.
 variable "instance_ocpus" { default = 1 }
 
 variable "instance_shape" {
-  default = "VM.Standard.A1.Flex" # Or VM.Standard.E2.1.Micro
+  default = "VM.Standard.E2.1.Micro" # Or VM.Standard.A1.Flex
 }
 
-variable "instance_shape_config_memory_in_gbs" { default = 24 }
+variable "instance_shape_config_memory_in_gbs" { default = 1 } #24
 
 variable "is_access_control_enabled" {
   type        = string
