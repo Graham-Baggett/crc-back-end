@@ -7,6 +7,8 @@ echo "Installing httpd..."
 sudo dnf install httpd
 echo "Installing python3..."
 sudo dnf install python3
+echo "Installing python's oracledb library..."
+sudo dnf install python3-oracledb
 echo "Starting httpd..."
 sudo systemctl start httpd
 echo "Enabling httpd..."
