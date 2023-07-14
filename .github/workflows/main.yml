@@ -114,11 +114,12 @@ jobs:
 #             toolbox-data.anchore.io:443
 
 ###############     TEST PYTHON     ######################################
-#       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-#       - name: Set up Python
-#         uses: actions/setup-python@57ded4d7d5e986d7296eab16560982c6dd7c923b # v4.6.0
-#         with:
-#           python-version: '3.8'
+      - name: Checkout Repo
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - name: Set up Python
+        uses: actions/setup-python@57ded4d7d5e986d7296eab16560982c6dd7c923b # v4.6.0
+        with:
+          python-version: '3.8'
 #       - name: Install dependencies
 #         run: |
 #           python -m pip install --upgrade pip
