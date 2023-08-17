@@ -1,5 +1,5 @@
 # Use the official Python image as the base image
-FROM python:3.9
+FROM python:3.9-slim
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -13,9 +13,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code into the container at /app
 COPY python/src/visitor_counter.py .
 
+# Expose port 8080 for the Flask app inside the container
+EXPOSE 8080
 
-# Expose port 8000 for the Flask app
-EXPOSE 8000
+# Save SSL certificate and key from build arguments to files
+RUN echo "$SSL_CERT_FILE" > /app/ssl_cert.pem
+RUN echo "$SSL_KEY_FILE" > /app/ssl_key.pem
 
 # Command to run the application
 CMD ["python", "visitor_counter.py"]
