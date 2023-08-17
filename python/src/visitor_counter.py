@@ -56,15 +56,9 @@ if __name__ == "__main__":
     cert_file = os.environ.get("SSL_CERT_FILE")
     key_file = os.environ.get("SSL_KEY_FILE")
 
-    # Read the certificate and key file contents
-    with open(cert_file, "r") as cert_file:
-        cert_data = cert_file.read()
-    with open(key_file, "r") as key_file:
-        key_data = key_file.read()
-
-    # Create an SSL context with the loaded certificate and key data
+    # Create an SSL context with the provided certificate and key file paths
     ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-    ssl_context.load_cert_chain(certfile=cert_data, keyfile=key_data)
+    ssl_context.load_cert_chain(certfile=cert_file, keyfile=key_file)
 
     # Run the app with the SSL context
     app.run(host="0.0.0.0", port=8080, ssl_context=ssl_context)
