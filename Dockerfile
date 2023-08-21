@@ -4,14 +4,15 @@ FROM ghcr.io/oracle/oraclelinux8-instantclient:21
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install Python and pip
-RUN dnf install -y python3 python3-pip
+# Install Python 3.9 and required tools
+RUN dnf install -y https://repo.ius.io/ius-release-el8.rpm && \
+    dnf install -y python39 python39-pip
 
 # Copy the requirements file into the container at /app
 COPY python/requirements.txt .
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3.9 install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code into the container at /app
 COPY python/src/visitor_counter.py .
@@ -20,4 +21,4 @@ COPY python/src/visitor_counter.py .
 EXPOSE 8080
 
 # Command to run the application
-CMD ["python", "visitor_counter.py"]
+CMD ["python3.9", "visitor_counter.py"]
