@@ -4,6 +4,9 @@ FROM ghcr.io/oracle/oraclelinux8-instantclient:21
 # Set the working directory inside the container
 WORKDIR /app
 
+# Install Python and pip
+RUN dnf install -y python3 python3-pip
+
 # Copy the requirements file into the container at /app
 COPY python/requirements.txt .
 
