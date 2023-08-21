@@ -5,8 +5,7 @@ FROM ghcr.io/oracle/oraclelinux8-instantclient:21
 WORKDIR /app
 
 # Install Python 3.9 and required tools
-RUN dnf install -y https://repo.ius.io/ius-release-el8.rpm && \
-    dnf install -y python39 python39-pip
+RUN dnf install -y python39 python39-pip
 
 # Copy the requirements file into the container at /app
 COPY python/requirements.txt .
