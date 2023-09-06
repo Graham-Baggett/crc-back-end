@@ -39,6 +39,8 @@ fi
 #set AllowOrverride to All in /etc/httpd/conf/httpd.conf
 sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
 sudo firewall-cmd --permanent --add-port=443/tcp
+sudo firewall-cmd --permanent --add-port=8080/tcp
+sudo firewall-cmd --permanent --add-port=8443/tcp
 sudo firewall-cmd --add-service=https --permanent
 sudo firewall-cmd --reload
 cd /home/opc/crc-front-end
