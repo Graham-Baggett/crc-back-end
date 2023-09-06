@@ -27,6 +27,8 @@ echo "Establishing a certbot symbolic link..."
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
 echo "Installing mod_ssl..."
 sudo dnf install mod_ssl
+echo "Installing mod_proxy..."
+sudo dnf install mod_proxy
 echo "Generating and installing certificate..."
 sudo certbot --apache
 
