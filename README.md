@@ -5,9 +5,6 @@
 # Cloud Resume Challenge
 Back-end repository for the Cloud Resume Challenge
 
-This is a hands-on learning project teaching me how to use the cloud
+This is a hands-on learning project teaching me how to use Oracle Cloud Infrastructure (OCI)
 
-Here is a basic architecture diagram:
-
-
-![Cloud Resume Challenge Architecture Diagram (Terraform)](https://user-images.githubusercontent.com/122628449/227319791-ff45778f-edbb-4528-b6dd-3869b4874a94.jpg)
+TODO: Create a basic architecture diagram

@@ -1,117 +1,139 @@
-name: Python Testing and AWS Back-End Infrastructure Deployment
-run-name: ${{ github.actor }} is testing and deploying Back-End Infrastructure update in GitHub Actions 🚀
+name: OCI Back-End Infrastructure Interaction
+run-name: ${{ github.actor }} is interacting with OCI Back-End Infrastructure in GitHub Actions 🚀
 
 on: 
   push:
     branches:
-      - main
+      - oci
       
 permissions:
   contents: read
 
 jobs:
-  test-lambda:
+  update-oci:
     runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: "oci"
+      BUCKET_NAME: "gb-cloud-resume"
+      OCI_CLI_COMPARTMENT_OCID: ${{ secrets.OCI_CLI_COMPARTMENT_OCID }}
+      OCI_CLI_DB_ADMIN_PASSWORD: ${{ secrets.OCI_CLI_DB_ADMIN_PASSWORD }}
+      OCI_CLI_DB_WALLET_PASSWORD: ${{ secrets.OCI_CLI_DB_WALLET_PASSWORD }}
+      OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
+      OCI_CLI_INSTANCE_IP_ADDRESS: ${{ secrets.OCI_CLI_INSTANCE_IP_ADDRESS }}
+      OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
+      OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
+      OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }} #The OCID of the tenancy
+      OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }} #The OCID of the user     
+      PROVIDER_NAME: "GitHub Source Provider"
+      REPO_URL: "https://github.com/Graham-Baggett/crc-back-end"
+      STACK_NAME: "Cloud Resume Challenge Back-End Stack"
+      TF_VERSION: "1.2.x"
+      WORKING_DIRECTORY: ./terraform
 
-    steps:
+    steps:    
+
+###############     MANAGE OCI CLI and SQLcl     ######################################
+#       - name: Install OCI and run a command
+#         uses: oracle-actions/run-oci-cli-command@v1.1.1
+#         id: list-bucket-contents
+#         with:
+#           command: 'os ns get'
+          # command: 'os object list --bucket-name ${{env.BUCKET_NAME}}'
+          #command: 'oci setup repair-file-permissions --file /home/runner/.oci/config'    
+          
+#       - uses: actions/checkout@v3
+#       - uses: gvenzl/setup-oracle-sqlcl@v1
+#       - name: Run SQLcl
+#         run: |
+#           sql -version
+
+          
+###############     MANAGE TERRAFORM STACK     ######################################
+#       - name: Check Configuration Source Provider
+#         run: |
+#           echo "SOURCE_PROVIDER_ID=$(oci resource-manager configuration-source-provider list \
+#           --compartment-id $OCI_CLI_COMPARTMENT_OCID | jq '.data.items[] | select(."display-name"==env.PROVIDER_NAME).id' -r)" >> $GITHUB_ENV
+#       - name: Check OCI Resource Stack
+#         run: |
+#           echo "STACK_ID=$(oci resource-manager stack list --all --compartment-id $OCI_CLI_COMPARTMENT_OCID | jq '.data[] | select(."display-name"==env.STACK_NAME).id' -r)" >> $GITHUB_ENV
+#       - name: Update Stack
+#         run: |
+#           oci resource-manager stack update \
+#             --stack-id $STACK_ID \
+#             --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "db_admin_password": "${{env.OCI_CLI_DB_ADMIN_PASSWORD}}", "db_wallet_password": "${{env.OCI_CLI_DB_WALLET_PASSWORD}}", "tenancy_ocid": "${{env.OCI_CLI_TENANCY}}", "whitelisted_ips": "${{env.OCI_CLI_INSTANCE_IP_ADDRESS}}"}' \
+#             --force
+#       - name: Create Cloud Resume Challenge Stack
+#         if: ${{env.STACK_ID == ''}}
+#         run: |
+#             echo "STACK_ID=$(oci resource-manager stack create-from-git-provider \
+#             --compartment-id $OCI_CLI_COMPARTMENT_OCID \
+#             --config-source-configuration-source-provider-id $SOURCE_PROVIDER_ID \
+#             --config-source-branch-name $BRANCH_NAME \
+#             --config-source-repository-url $REPO_URL \
+#             --config-source-working-directory $WORKING_DIRECTORY \
+#             --display-name "$STACK_NAME" \
+#             --terraform-version $TF_VERSION \
+#             --variables '{"compartment_ocid": "${{env.OCI_CLI_COMPARTMENT_OCID}}", "region": "${{env.OCI_CLI_REGION}}", "tenancy_ocid": "${{ secrets.OCI_CLI_TENANCY }}"}' \
+#             --wait-for-state SUCCEEDED \
+#             --wait-for-state FAILED | jq '.data.id' -r)" >> $GITHUB_ENV
+#       - name: Create Cloud Resume Challenge Plan Job
+#         if: ${{env.STACK_ID != ''}}
+#         run: |
+#           echo "PLAN_JOB_ID=$(oci resource-manager job create-plan-job \
+#             --display-name "Terraform plan for updating OCI front-end infrastructure" \
+#             --stack-id $STACK_ID \
+#             --terraform-advanced-options '{"detailedLogLevel": "DEBUG", "parallelism": 20, "isRefreshRequired": true}' \
+#             --wait-for-state SUCCEEDED \
+#             --wait-for-state FAILED \
+#             --max-wait-seconds 45 | jq '.data.id' -r)" >> $GITHUB_ENV
+#       - name: Apply Cloud Resume Challenge Plan Job
+#         if: ${{env.PLAN_JOB_ID != ''}}
+#         run: |
+#           echo "APPLY_JOB_ID=$(oci resource-manager job create-apply-job \
+#             --display-name "Terraform apply for updating OCI front-end infrastructure" \
+#             --execution-plan-strategy FROM_PLAN_JOB_ID \
+#             --execution-plan-job-id $PLAN_JOB_ID \
+#             --stack-id $STACK_ID \
+#             --terraform-advanced-options '{"detailedLogLevel": "DEBUG", "parallelism": 20, "isRefreshRequired": true}' \
+#             --wait-for-state SUCCEEDED \
+#             --wait-for-state FAILED | jq '.data.id' -r)" >> $GITHUB_ENV
+#           ls -la
+          
       - name: Harden Runner
         uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: >
-            api.github.com:443
             files.pythonhosted.org:443
             github.com:443
             pypi.org:443
-            raw.githubusercontent.com:443
-            objects.githubusercontent.com:443
-            toolbox-data.anchore.io:443
+            resourcemanager.us-ashburn-1.oraclecloud.com:443
 
-      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
-      - name: Set up Python
-        uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4.7.0
-        with:
-          python-version: '3.8'
+###############     TEST PYTHON     ######################################
+      - name: Checkout Repo
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r python/requirements.txt
-      - name: Create SBOM
-        uses: anchore/sbom-action@78fc58e266e87a38d4194b2137a3d4e9bcaf7ca1 # v0.14.3
-        with:
-          path: ./python/
-          artifact-name: sbom.spdx
-          output-file: ./sbom.spdx
-      - name: Determine current dir and files
-        run: |
-          ls -la
-          pwd
-      - name: Scan SBOM
-        uses: anchore/scan-action@24fd7c9060f3c96848dd1929fac8d796fb5ae4b4 # v3.3.6
-        with:
-          sbom: sbom.spdx
+          
+#       - name: Create SBOM
+#         uses: anchore/sbom-action@4d571ad1038a9cc29d676154ef265ab8f9027042 # v0.14.2
+#         with:
+#           path: ./python/
+#           artifact-name: sbom.spdx
+#           output-file: ./sbom.spdx
+#       - name: Determine current dir and files
+#         run: |
+#           ls -la
+#           pwd
+#       - name: Scan SBOM
+#         uses: anchore/scan-action@4be3c24559b430723e51858969965e163b196957 # v3.3.5
+#         with:
+#           sbom: sbom.spdx
       - name: Run tests and linting
         run: |
-          pip install flake8
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --max-complexity=10 --max-line-length=127
-          pytest -sv
-        
-  update-infra:
-    runs-on: ubuntu-latest
-    needs: test-lambda
-    environment:
-      name: production
-    env:
-      working_directory: ./terraform
-    permissions:
-      id-token: write # This is required for requesting the JWT
-      contents: read  # This is required for actions/checkout
-    steps: 
-      - name: Harden Runner
-        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
-        with:
-          disable-sudo: true
-          egress-policy: block
-          allowed-endpoints: >
-            apigateway.us-east-1.amazonaws.com:443
-            checkpoint-api.hashicorp.com:443
-            dynamodb.us-east-1.amazonaws.com:443
-            gb-crc-terraform-state.s3.amazonaws.com:443
-            github.com:443
-            iam.amazonaws.com:443
-            lambda.us-east-1.amazonaws.com:443
-            registry.terraform.io:443
-            releases.hashicorp.com:443
-            sts.amazonaws.com:443
-            sts.us-east-1.amazonaws.com:443
+          pytest python/tests -sv
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@8c3f20df09ac63af7b3ae3d7c91f105f857d8497 # master
-        with:
-          aws-region: us-east-1
-          role-to-assume: ${{ secrets.WRITE_ROLE }}
-          role-session-name: OIDCSession
-      - name: Download repo
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
-      - name: Set Python to 3.8
-        uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4.7.0
-        with:
-          python-version: "3.8"
-      - name: Terraform init and validate
-        working-directory: ${{ env.working_directory }}
-        run: |
-           echo `pwd`
-           terraform init -input=false
-           terraform fmt -diff
-           terraform apply -auto-approve
-           
-#       - name: Upload Terraform state file
-#         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
-#         with:
-#             name: terraform.tfstate
-#             path: ./terraform/terraform.tfstate
-#       - name: Build SAM template for deployment 
-#         run: sam build
-#       - name: Deploy SAM template to AWS
-#         run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --debug

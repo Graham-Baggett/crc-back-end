@@ -1,3 +1,5 @@
-boto3==1.28.71
-moto==4.2.6
-pytest==7.4.3
+﻿flake8==5.0.4
+flask==2.2.2
+flask_cors==3.0.10
+oracledb==1.2.0
+pytest==6.2.5
