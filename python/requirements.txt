@@ -1,5 +1,5 @@
 ﻿flake8==5.0.4
-flask==2.2.5
+flask==3.0.0
 flask_cors==3.0.10
 oracledb==1.2.0
 pytest==6.2.5
